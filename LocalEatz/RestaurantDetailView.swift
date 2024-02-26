@@ -212,6 +212,7 @@ struct RestaurantDetailView: View {
             .padding()
             .padding(.top,-10)
         }
+        .background(Color("backgroundColor"))
         .sheet(isPresented: $isAddingReview) {
             AddReviewView(isPresented: $isAddingReview, restaurantID: restaurant.id) {
                 // This closure is called when a review is submitted
