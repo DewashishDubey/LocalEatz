@@ -16,6 +16,8 @@ struct AddReviewView: View {
     @State private var reviewText = ""
     @State private var rating = 0.0 // Changed to Double
     
+    @StateObject var viewModel1 = ViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -36,7 +38,9 @@ struct AddReviewView: View {
                 
                 Button("Submit") {
                     // Add the review
+                    
                     addReview()
+                    viewModel1.fetch()
                 }
                 .padding()
                 .background(Color.blue)
@@ -47,6 +51,7 @@ struct AddReviewView: View {
             .navigationTitle("Add Review")
             .navigationBarItems(trailing: Button("Cancel") {
                 // Dismiss the sheet
+                
                 isPresented = false
             })
         }

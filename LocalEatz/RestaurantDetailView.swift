@@ -49,6 +49,7 @@ struct RestaurantDetailView: View {
                                     .resizable()
                                     .frame(width: 30,height: 30)
                                     .padding(.trailing,20)
+                                    .padding(.top,15)
                         }
                                     }
                         
@@ -156,6 +157,7 @@ struct RestaurantDetailView: View {
                     HStack
                     {
                         ForEach(restaurant.mustHaves, id: \.self) { dish in
+                            
                             VStack(alignment: .leading) {
                                 if let imageURL = dish.mustHaveImageURL {
                                     AsyncImage(url: imageURL)
@@ -163,21 +165,28 @@ struct RestaurantDetailView: View {
                                         .frame(width:280,height: 200)
                                         .aspectRatio(contentMode: .fit)
                                 }
-                                Text(dish.dishName)
-                                    .frame(maxWidth: .infinity,alignment: .leading)
-                                    .padding(.bottom,2)
-                                    .foregroundStyle(Color.black)
-                                
-                                HStack{
-                                    Image(systemName: "star.fill")
-                                        .symbolRenderingMode(.multicolor)
-                                    Text("\(dish.dishRating,specifier: "%0.1f")")
-                                        .font(.system(size: 14, weight: .thin, design: .rounded))
+                                VStack{
+                                    Text(dish.dishName)
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.bottom,2)
                                         .foregroundStyle(Color.black)
-                                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
-                                //Text("Rating: \(dish.dishRating)")
-                                  //  .font(.subheadline)
+                                    
+                                    HStack{
+                                        Image(systemName: "star.fill")
+                                            .symbolRenderingMode(.multicolor)
+                                        Text("\(dish.dishRating,specifier: "%0.1f")")
+                                            .font(.system(size: 14, weight: .thin, design: .rounded))
+                                            .foregroundStyle(Color.black)
+                                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                                    //Text("Rating: \(dish.dishRating)")
+                                    //  .font(.subheadline)
+                                }
+                                .padding(.leading,10)
+                                .padding(.bottom,10)
                             }
+                            .frame(maxWidth:290,maxHeight:300)
+                            .background(Color.white)
+                            .cornerRadius(10)
                         }
                     }
                 }
