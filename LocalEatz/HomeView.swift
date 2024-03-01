@@ -182,27 +182,66 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                         
-                        ForEach(viewModel.restaurants, id: \.self) { restaurant in
-                            VStack(alignment: .leading) {
-                                if let imageURL = restaurant.cardImageURL {
-                                    AsyncImage(url: imageURL)
-                                        .frame(width: 300, height: 200)
-                                        .aspectRatio(contentMode: .fit)
-                                        .cornerRadius(8)
-                                        .padding(.bottom, 8)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 20) { // Adjust the spacing between items as needed
+                                ForEach(viewModel.restaurants) { restaurant in
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            
+                                       
+                                                if let imageURL = restaurant.cardImageURL {
+                                                    AsyncImage(url: imageURL)
+                                                        .frame(width: 200, height: 100,alignment: .center)
+                                                    //.aspectRatio(contentMode: .fit)
+                                                       // .cornerRadius(8)
+                                                        .padding(.bottom, 8)
+                                                }
+  
+                                            
+                                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                                                Text(restaurant.restaurantName)
+                                                    .font(.system(size: 18, weight: .medium))
+                                                    .foregroundColor(.black)
+                                                    .padding(.leading, 3)
+                                                    .padding(.bottom, 3)
+                                            }
+                                            HStack {
+                                                                            Image(systemName: "star.fill")
+                                                                                .foregroundColor(.orange)
+                                                                                .symbolRenderingMode(.multicolor)
+                                                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                                                                .font(.system(size: 14, weight: .thin))
+                                                                                .foregroundColor(.black)
+                                                                        }
+                                            HStack {
+                                                Text("\(restaurant.meal)")
+                                                    .font(.system(size: 12, weight: .thin, design: .rounded))
+                                                    .padding(6)
+                                                    .background(Color("softBackground"))
+                                                    .cornerRadius(5)
+                                                
+                                                Text("\(restaurant.preference)")
+                                                    .font(.system(size: 12, weight: .thin, design: .rounded))
+                                                    .padding(6)
+                                                    .background(Color("softBackground"))
+                                                    .cornerRadius(5)
+                                            }
+                                            .padding(.leading,3)
+                                            .padding(.bottom,3)
+                                        }
+                                        //.padding()
+                                        .padding(.leading,10)
+                                    }
+                                    .frame(maxWidth: 200,maxHeight : 200)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
                                 }
-                                NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                                    Text(restaurant.restaurantName)
-                                        .font(.headline)
-                                }
-                                Text("Rating: \(restaurant.restaurantRating)")
-                                Text(restaurant.restaurantDesc)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
                             }
-                            .padding()
+                            .padding(.horizontal)
                         }
-                        
+                        .onAppear {
+                            viewModel.fetch()
+                        }
                     }
                     
 
