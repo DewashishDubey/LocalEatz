@@ -55,16 +55,31 @@ struct RestaurantDetailView: View {
                         
                     
                 }
-                
-                HStack{
-                    Image(systemName: "star.fill")
-                        .symbolRenderingMode(.multicolor)
+                HStack {
+                    ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .foregroundColor(.orange)
+                            .symbolRenderingMode(.multicolor)
+                            .frame(width:15,height:15)
+                            .padding(.top,-2)
+                    }
+                    if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                        Image(systemName: "star.leadinghalf.fill")
+                            .resizable()
+                            .foregroundColor(.orange)
+                            .symbolRenderingMode(.multicolor)
+                            .frame(width:15,height:15)
+                            .padding(.top,-2)
+                    }
                     Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                        .font(.system(size: 14, weight: .thin, design: .rounded))
-                        .foregroundStyle(Color.black)
+                                                    .font(.system(size: 14, weight: .thin))
+                                                    .foregroundColor(.black)
+                    
                 }
                 .padding(.top,-10)
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                
 
                 Text(restaurant.restaurantDesc)
                     .font(.system(size: 16, weight: .thin, design: .rounded))
@@ -122,14 +137,38 @@ struct RestaurantDetailView: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .foregroundStyle(Color.black)
                                 }
+                                
                                 HStack {
-                                    Image(systemName: "star.fill")
-                                        .symbolRenderingMode(.multicolor)
-                                    Text("\(review.userRating,specifier: "%0.1f")")
-                                        .font(.system(size: 14, weight: .thin, design: .rounded))
-                                        .foregroundStyle(Color.black)
+                                    ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                                        Image(systemName: "star.fill")
+                                            .resizable()
+                                            .foregroundColor(.orange)
+                                            .symbolRenderingMode(.multicolor)
+                                            .frame(width:15,height:15)
+                                            .padding(.top,-2)
+                                    }
+                                    if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                        Image(systemName: "star.leadinghalf.fill")
+                                            .resizable()
+                                            .foregroundColor(.orange)
+                                            .symbolRenderingMode(.multicolor)
+                                            .frame(width:15,height:15)
+                                            .padding(.top,-2)
+                                    }
+                                    Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                                                    .font(.system(size: 14, weight: .thin))
+                                                                    .foregroundColor(.black)
+                                    
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
+//                                HStack {
+//                                    Image(systemName: "star.fill")
+//                                        .symbolRenderingMode(.multicolor)
+//                                    Text("\(review.userRating,specifier: "%0.1f")")
+//                                        .font(.system(size: 14, weight: .thin, design: .rounded))
+//                                        .foregroundStyle(Color.black)
+//                                }
+//                                .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(review.userReview)
                                     .multilineTextAlignment(.leading)
                                     .frame(width: 355, height: 80, alignment: .leading)
@@ -171,13 +210,36 @@ struct RestaurantDetailView: View {
                                         .padding(.bottom,2)
                                         .foregroundStyle(Color.black)
                                     
-                                    HStack{
-                                        Image(systemName: "star.fill")
-                                            .symbolRenderingMode(.multicolor)
-                                        Text("\(dish.dishRating,specifier: "%0.1f")")
-                                            .font(.system(size: 14, weight: .thin, design: .rounded))
-                                            .foregroundStyle(Color.black)
-                                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                                    
+                                    HStack {
+                                        ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                                            Image(systemName: "star.fill")
+                                                .resizable()
+                                                .foregroundColor(.orange)
+                                                .symbolRenderingMode(.multicolor)
+                                                .frame(width:15,height:15)
+                                                .padding(.top,-2)
+                                        }
+                                        if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                            Image(systemName: "star.leadinghalf.fill")
+                                                .resizable()
+                                                .foregroundColor(.orange)
+                                                .symbolRenderingMode(.multicolor)
+                                                .frame(width:15,height:15)
+                                                .padding(.top,-2)
+                                        }
+                                        Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                            .font(.system(size: 14, weight: .thin))
+                                            .foregroundColor(.black)
+                                    }
+                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+//                                    HStack{
+//                                        Image(systemName: "star.fill")
+//                                            .symbolRenderingMode(.multicolor)
+//                                        Text("\(dish.dishRating,specifier: "%0.1f")")
+//                                            .font(.system(size: 14, weight: .thin, design: .rounded))
+//                                            .foregroundStyle(Color.black)
+//                                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                                     //Text("Rating: \(dish.dishRating)")
                                     //  .font(.subheadline)
                                 }

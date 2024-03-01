@@ -149,15 +149,39 @@ struct RestaurantRecommendation: View {
                                     .padding(.bottom, -3)
                                     .padding(.leading, 5)
                             }
+                            
                             HStack {
-                                Image(systemName: "star.fill")
-                                    .symbolRenderingMode(.multicolor)
+                                ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .foregroundColor(.orange)
+                                        .symbolRenderingMode(.multicolor)
+                                        .frame(width:15,height:15)
+                                        .padding(.top,-2)
+                                }
+                                if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                    Image(systemName: "star.leadinghalf.fill")
+                                        .resizable()
+                                        .foregroundColor(.orange)
+                                        .symbolRenderingMode(.multicolor)
+                                        .frame(width:15,height:15)
+                                        .padding(.top,-2)
+                                }
                                 Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                                    .font(.system(size: 14, weight: .thin, design: .rounded))
+                                                                .font(.system(size: 14, weight: .thin))
+                                                                .foregroundColor(.black)
+                                
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 3)
                             .padding(.leading, 5)
+//                            HStack {
+//                                Image(systemName: "star.fill")
+//                                    .symbolRenderingMode(.multicolor)
+//                                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+//                                    .font(.system(size: 14, weight: .thin, design: .rounded))
+//                            }
+                            
                             
                             HStack {
                                 Text("\(restaurant.meal)")

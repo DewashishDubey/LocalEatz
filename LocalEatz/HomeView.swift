@@ -206,20 +206,23 @@ struct HomeView: View {
                                                     .padding(.bottom, 3)
                                             }
                                             
+                                        
                                             HStack {
                                                 ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
                                                     Image(systemName: "star.fill")
                                                         .resizable()
                                                         .foregroundColor(.orange)
                                                         .symbolRenderingMode(.multicolor)
-                                                        .frame(width:5,height:5)
+                                                        .frame(width:15,height:15)
+                                                        .padding(.top,-2)
                                                 }
                                                 if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
                                                     Image(systemName: "star.leadinghalf.fill")
                                                         .resizable()
                                                         .foregroundColor(.orange)
                                                         .symbolRenderingMode(.multicolor)
-                                                        .frame(width:5,height:5)
+                                                        .frame(width:15,height:15)
+                                                        .padding(.top,-2)
                                                 }
                                                 Text("\(restaurant.restaurantRating, specifier: "%.1f")")
                                                                                 .font(.system(size: 14, weight: .thin))
