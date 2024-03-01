@@ -13,7 +13,6 @@
 		3F0E15842B2DFD43001A3BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E15832B2DFD43001A3BBB /* Assets.xcassets */; };
 		3F0E15872B2DFD43001A3BBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E15862B2DFD43001A3BBB /* Preview Assets.xcassets */; };
 		3F0E15922B2E1FA1001A3BBB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E15912B2E1FA1001A3BBB /* MapView.swift */; };
-		3F0E15942B2E2CE3001A3BBB /* ItineraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E15932B2E2CE3001A3BBB /* ItineraryView.swift */; };
 		3F16424A2B4A97B4000BB5B3 /* login_page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1642482B4A97B4000BB5B3 /* login_page.swift */; };
 		3F16424B2B4A97B4000BB5B3 /* signup_page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1642492B4A97B4000BB5B3 /* signup_page.swift */; };
 		3F3B1E242B3C7ED100FE49E7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3B1E232B3C7ED100FE49E7 /* HomeView.swift */; };
@@ -86,7 +85,6 @@
 		3F0E15832B2DFD43001A3BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F0E15862B2DFD43001A3BBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F0E15912B2E1FA1001A3BBB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		3F0E15932B2E2CE3001A3BBB /* ItineraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryView.swift; sourceTree = "<group>"; };
 		3F1642482B4A97B4000BB5B3 /* login_page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = login_page.swift; sourceTree = "<group>"; };
 		3F1642492B4A97B4000BB5B3 /* signup_page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signup_page.swift; sourceTree = "<group>"; };
 		3F3B1E232B3C7ED100FE49E7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -235,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				7FA2A8662B4E9D1D00C450A6 /* PlannedTrips.swift */,
-				3F0E15932B2E2CE3001A3BBB /* ItineraryView.swift */,
 				3F6D71112B3484EC00135C37 /* ItineraryView2.swift */,
 			);
 			path = Itinerary;
@@ -456,7 +453,6 @@
 				3FDEE7A42B407ABC003D9275 /* MyReviews.swift in Sources */,
 				A1F39F152B8B61D000EDAD05 /* AddReviewView.swift in Sources */,
 				A1F39F162B8B61D000EDAD05 /* AddItineraryView.swift in Sources */,
-				3F0E15942B2E2CE3001A3BBB /* ItineraryView.swift in Sources */,
 				A132F5372B4FD09800FD254B /* upcomingTrips.swift in Sources */,
 				A1C2A9812B8B5DEB00F0EED9 /* AuthViewModel.swift in Sources */,
 				A1F744142B5D1F6500BC936F /* localDelicaciesData.swift in Sources */,

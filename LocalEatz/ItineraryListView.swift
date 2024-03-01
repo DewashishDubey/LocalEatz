@@ -105,14 +105,14 @@ struct ItineraryDetailView: View {
         ScrollView
         {
             VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading) {
+                /*VStack(alignment: .leading) {
                     Text("Location: \(itinerary.location)")
                     Text("Start Date: \(itinerary.startDate)")
                     Text("End Date: \(itinerary.endDate)")
                     Text("Preference: \(itinerary.preference)")
                     Text("Number of Days: \(numberOfDaysBetweenDates())")
                 }
-                .padding()
+                .padding()*/
                 
                 if !restaurantViewModel.restaurants.isEmpty {
                                    // Text("Restaurants")
