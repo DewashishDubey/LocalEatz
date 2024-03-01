@@ -4,7 +4,6 @@
 //
 //  Created by user1 on 19/12/23.
 //
-
 import SwiftUI
 import MapKit
 
@@ -69,7 +68,7 @@ struct HomeView: View {
                 .padding(.bottom)
                 ScrollView{
                     HStack{
-                        Image("chdg")
+                        Image("pointer")
                             .resizable()
                             .frame(width: 120,height: 120)
                             .padding()
@@ -132,7 +131,7 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                             .padding(.bottom,-10)
-                        
+                                              
                         ScrollView(.horizontal,showsIndicators: false)
                         {
                             HStack
@@ -183,7 +182,7 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                         
-                        List(viewModel.restaurants, id: \.self) { restaurant in
+                        ForEach(viewModel.restaurants, id: \.self) { restaurant in
                             VStack(alignment: .leading) {
                                 if let imageURL = restaurant.cardImageURL {
                                     AsyncImage(url: imageURL)
@@ -205,6 +204,8 @@ struct HomeView: View {
                         }
                         
                     }
+                    
+
                     
                     
                     Divider()
