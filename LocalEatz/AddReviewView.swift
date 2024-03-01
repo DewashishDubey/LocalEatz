@@ -14,7 +14,7 @@ struct AddReviewView: View {
     let onReviewSubmitted: () -> Void
     
     @State private var reviewText = ""
-    @State private var rating = 0
+    @State private var rating = 0.0 // Changed to Double
     
     var body: some View {
         NavigationView {
@@ -24,8 +24,13 @@ struct AddReviewView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                 
-                Stepper(value: $rating, in: 0...5) {
-                    Text("Rating: \(rating)")
+                // Display the rating with decimal value
+                Text("Rating: \(String(format: "%.1f", rating))")
+                    .padding()
+                
+                // Replaced Stepper with Slider
+                Slider(value: $rating, in: 0...5, step: 0.1) { _ in
+                    // Text("Rating: \(String(format: "%.1f", rating))") // Removed from here
                 }
                 .padding()
                 
@@ -57,7 +62,7 @@ struct AddReviewView: View {
         let newReview = RestaurantReview(
             userName: viewModel.currentUser?.fullname ?? "Anonymus",
             reviewDate: formattedDate(),
-            userRating: Double(rating),
+            userRating: rating, // Changed to Double
             userReview: reviewText
         )
         
@@ -120,3 +125,4 @@ struct AddReviewView_Previews: PreviewProvider {
         AddReviewView(isPresented: .constant(true), restaurantID: "1", onReviewSubmitted: {})
     }
 }
+
