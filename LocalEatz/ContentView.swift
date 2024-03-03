@@ -43,7 +43,9 @@ struct ContentView: View {
             NavigationView {
                 VStack
                 {
-                    PlannedTrips()
+                    //PlannedTrips()
+                    ItineraryListView()
+
                 }
                 
             }

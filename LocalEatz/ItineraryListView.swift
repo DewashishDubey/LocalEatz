@@ -18,12 +18,38 @@ struct ItineraryListView: View {
     var body: some View {
         
         NavigationView {
+            
             VStack {
+                Text("Itinerary")
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+               
+                
+                    NavigationLink{
+                        AddItineraryView()
+                    }label: {
+                        HStack
+                        {
+                            Image(systemName: "plus")
+                                .foregroundColor(.orange)
+                            Text("Plan a new Itienary")
+                                .foregroundColor(.orange)
+                        }
+                    }
+                HStack{
+                    Text("Upcoming Trips")
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                    .padding([.horizontal],15)
+                    .padding(.top)
                 if isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                 } else {
+                    
                     List(itineraries, id: \.self) { itinerary in
                         NavigationLink(
                             destination: ItineraryDetailView(itinerary: itinerary),
@@ -62,7 +88,9 @@ struct ItineraryListView: View {
             .onAppear {
                 fetchItineraries()
             }
-            .padding(.top,-20)
+            .frame(maxWidth:.infinity,maxHeight:.infinity)
+            .background(Color("backgroundColor"))
+            //.padding(.top,-20)
         }
     }
     
@@ -114,6 +142,7 @@ struct ItineraryDetailView: View {
                 }
                 .padding()*/
                 
+                
                 if !restaurantViewModel.restaurants.isEmpty {
                                    // Text("Restaurants")
                                      //   .font(.title)
@@ -125,9 +154,16 @@ struct ItineraryDetailView: View {
                                                 Text("Day \(dayNumber)")
                                                     .font(.headline)
                                                     .padding(.top)
-                                                
-                                                ForEach(matchingRestaurants.prefix(3), id: \.id) { restaurant in
-                                                    RestaurantView(restaurant: restaurant)
+                                                    .frame(maxWidth:.infinity,alignment:.leading)
+                                                    .padding(.leading,20)
+                                                ScrollView(.horizontal)
+                                                {
+                                                    HStack{
+                                                        ForEach(matchingRestaurants.prefix(3), id: \.id) { restaurant in
+                                                            RestaurantView(restaurant: restaurant)
+                                                        }
+                                                        
+                                                    }
                                                 }
                                             }
                                         }
@@ -202,24 +238,78 @@ struct RestaurantView: View {
     var restaurant: Restaurant
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(restaurant.restaurantName)
-                .font(.title)
-            Text("Rating: \(restaurant.restaurantRating)")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            Text(restaurant.restaurantDesc)
-                .font(.body)
-            Text("Tags: \(restaurant.restaurantTags.joined(separator: ", "))")
-                .font(.caption)
-                .foregroundColor(.blue)
+        
+        VStack(alignment: .leading, spacing: 10)
+        {
+            VStack
+            {
+                if let imageURL = restaurant.cardImageURL
+                {
+                    AsyncImage(url: imageURL)
+                        .frame(width: 200, height: 100,alignment: .center)
+                }
+                NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                    Text(restaurant.restaurantName)
+                        .font(.system(size: 18, weight: .medium, design: .rounded))
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                        .padding(.bottom,-3)
+                        .padding(.leading,5)
+                        .foregroundColor(.black)
+                }
+                    
+                
+                HStack {
+                    ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .foregroundColor(.orange)
+                            .symbolRenderingMode(.multicolor)
+                            .frame(width:15,height:15)
+                            .padding(.top,-2)
+                    }
+                    if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                        Image(systemName: "star.leadinghalf.fill")
+                            .resizable()
+                            .foregroundColor(.orange)
+                            .symbolRenderingMode(.multicolor)
+                            .frame(width:15,height:15)
+                            .padding(.top,-2)
+                    }
+                    Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                                    .font(.system(size: 14, weight: .thin))
+                                                    .foregroundColor(.black)
+                    
+                }
+                .frame(maxWidth:.infinity,alignment:.leading)
+                VStack{
+                    HStack {
+                        Text("\(restaurant.meal)")
+                            .font(.system(size: 12, weight: .thin, design: .rounded))
+                            .padding(6)
+                            .background(Color("softBackground"))
+                            .cornerRadius(5)
+                        
+                        Text("\(restaurant.preference)")
+                            .font(.system(size: 12, weight: .thin, design: .rounded))
+                            .padding(6)
+                            .background(Color("softBackground"))
+                            .cornerRadius(5)
+                    }
+                    .padding(.leading,3)
+                    .padding(.bottom,3)
+                }
+                .frame(maxWidth:.infinity,alignment:.leading)
+            }
+            .padding(.leading,20)
+            .frame(maxWidth:200)
+            .background(Color.white)
             
             // You can add more information here if needed
         }
-        .padding()
-        .background(Color(.systemGray6))
+        .frame(maxWidth: 200,alignment: .leading)
+        .background(Color.white)
         .cornerRadius(10)
-        .padding(.vertical, 5)
+        //.padding(.leading,20)
     }
 }
 

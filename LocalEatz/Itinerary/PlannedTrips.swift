@@ -57,51 +57,7 @@ struct PlannedTrips: View {
                         .padding(.top)
                     
                     ItineraryListView()
-                    VStack {
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .padding()
-                        } else {
-                            List(itineraries, id: \.self) { itinerary in
-                                NavigationLink(
-                                    destination: ItineraryDetailView(itinerary: itinerary),
-                                    tag: itinerary,
-                                    selection: $selectedItinerary
-                                ) {
-                                    HStack{
-                                        VStack(alignment: .leading) {
-                                            Text("\(itinerary.location)").font(.title)
-                                                .font(.system(size: 10))
-                                                .fontWeight(.bold)
-                                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                                            Text("\(itinerary.startDate) - \(itinerary.endDate)").frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                                            
-                                             
-                                           /* Text("\(itinerary.preference)").frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)*/
-                                                
-                                        }
-                                        
-                                        
-                                        Image("mumbai")
-                                            .resizable()
-                                            .frame(width:100,height: 100)
-                                        
-                                        
-                                        
-                                    }.background(Color.white)
-                                        .cornerRadius(15)
-                                         
-                                    
-                                }
-                            }
-                            
-                        }
-                    }
-                    .onAppear {
-                        fetchItineraries()
-                    }
-                    .padding(.top,-20)
+                    
                     
                     
                     /*HStack{
@@ -150,29 +106,7 @@ struct PlannedTrips: View {
         .frame(maxWidth: .infinity,maxHeight: .infinity)
         .background(Color("backgroundColor"))
     }
-    func fetchItineraries() {
-        guard let url = URL(string: "http://localhost:3002/itinerary") else {
-            print("Invalid URL")
-            return
-        }
-        
-        isLoading = true
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(ItineraryList.self, from: data)
-                    DispatchQueue.main.async {
-                        self.itineraries = decodedData.itineraries
-                        isLoading = false
-                    }
-                } catch {
-                    print("Error decoding itinerary data: \(error)")
-                    isLoading = false
-                }
-            }
-        }.resume()
-    }
+
 }
 
 #Preview {
