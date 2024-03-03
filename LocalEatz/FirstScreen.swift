@@ -18,8 +18,8 @@ struct FirstScreen: View {
                 pageView(imageName: "introductoryImage3", title: "Locate Local Popular Dishes that make you droll",showDismissButton: false)
                     .background(Color("coreOrange"))
                 
-                pageView(imageName: "introductoryImage1", title: "See where your Friends are and what they are eating!",showDismissButton: false)
-                    .background(Color("coreOrange"))
+//                pageView(imageName: "introductoryImage1", title: "See where your Friends are and what they are eating!",showDismissButton: false)
+//                    .background(Color("coreOrange"))
                 
                 pageView(imageName: "introductoryImage4", title: "Find Local Popular Food Outlets",showDismissButton: true)
                     .background(Color("coreOrange"))
