@@ -206,7 +206,6 @@ struct ItineraryDetailView: View {
 // RestaurantViewModel to handle networking and data parsing
 class RestaurantViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
-    
     func fetchRestaurants() {
         guard let url = URL(string: "http://localhost:3000/restaurants") else { return }
         
