@@ -131,6 +131,8 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                             .padding(.bottom,-10)
+                        
+                        
                                               
                         ScrollView(.horizontal,showsIndicators: false)
                         {

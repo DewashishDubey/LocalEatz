@@ -13,10 +13,7 @@
 		3F0E15842B2DFD43001A3BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E15832B2DFD43001A3BBB /* Assets.xcassets */; };
 		3F0E15872B2DFD43001A3BBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E15862B2DFD43001A3BBB /* Preview Assets.xcassets */; };
 		3F0E15922B2E1FA1001A3BBB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E15912B2E1FA1001A3BBB /* MapView.swift */; };
-		3F16424A2B4A97B4000BB5B3 /* login_page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1642482B4A97B4000BB5B3 /* login_page.swift */; };
-		3F16424B2B4A97B4000BB5B3 /* signup_page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1642492B4A97B4000BB5B3 /* signup_page.swift */; };
 		3F3B1E242B3C7ED100FE49E7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3B1E232B3C7ED100FE49E7 /* HomeView.swift */; };
-		3F6D71122B3484EC00135C37 /* ItineraryView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D71112B3484EC00135C37 /* ItineraryView2.swift */; };
 		3F6D71142B348C7200135C37 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D71132B348C7200135C37 /* AboutView.swift */; };
 		3F6D71162B348C9900135C37 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D71152B348C9900135C37 /* ReviewView.swift */; };
 		3F97E4052B4C7CC0004A8BA9 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F97E4042B4C7CC0004A8BA9 /* EditProfile.swift */; };
@@ -85,10 +82,7 @@
 		3F0E15832B2DFD43001A3BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F0E15862B2DFD43001A3BBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F0E15912B2E1FA1001A3BBB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		3F1642482B4A97B4000BB5B3 /* login_page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = login_page.swift; sourceTree = "<group>"; };
-		3F1642492B4A97B4000BB5B3 /* signup_page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signup_page.swift; sourceTree = "<group>"; };
 		3F3B1E232B3C7ED100FE49E7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		3F6D71112B3484EC00135C37 /* ItineraryView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryView2.swift; sourceTree = "<group>"; };
 		3F6D71132B348C7200135C37 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		3F6D71152B348C9900135C37 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		3F97E4042B4C7CC0004A8BA9 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
@@ -193,14 +187,10 @@
 				3F0E15912B2E1FA1001A3BBB /* MapView.swift */,
 				7FA2A8682B4EAEB500C450A6 /* Itinerary */,
 				3FDEE7A52B407CAE003D9275 /* Profile */,
-				3F1642482B4A97B4000BB5B3 /* login_page.swift */,
-				3F1642492B4A97B4000BB5B3 /* signup_page.swift */,
 				A1F39F112B8B61A000EDAD05 /* RestaurantDetailView.swift */,
-				A1F39F142B8B61D000EDAD05 /* AddItineraryView.swift */,
 				A1F39F132B8B61D000EDAD05 /* AddReviewView.swift */,
 				A1F39F172B8B61EF00EDAD05 /* LocationManager.swift */,
 				A1F39F192B8B621900EDAD05 /* viewReview.swift */,
-				A1AFB68C2B8B651F00181FD4 /* ItineraryListView.swift */,
 				3F0E15832B2DFD43001A3BBB /* Assets.xcassets */,
 				A12D0BBE2B8B5F2F007C0CCF /* GoogleService-Info.plist */,
 				3F0E15852B2DFD43001A3BBB /* Preview Content */,
@@ -233,7 +223,8 @@
 			isa = PBXGroup;
 			children = (
 				7FA2A8662B4E9D1D00C450A6 /* PlannedTrips.swift */,
-				3F6D71112B3484EC00135C37 /* ItineraryView2.swift */,
+				A1F39F142B8B61D000EDAD05 /* AddItineraryView.swift */,
+				A1AFB68C2B8B651F00181FD4 /* ItineraryListView.swift */,
 			);
 			path = Itinerary;
 			sourceTree = "<group>";
@@ -442,7 +433,6 @@
 				3FDEE7A72B4087D5003D9275 /* MyFriends.swift in Sources */,
 				A14227B92B4E723F0000EE4F /* IntroductionData.swift in Sources */,
 				A1FF98012B4594E400CDDAAE /* AddFoodie.swift in Sources */,
-				3F16424A2B4A97B4000BB5B3 /* login_page.swift in Sources */,
 				A1F744162B5D219D00BC936F /* upcomingTripsData.swift in Sources */,
 				3F6D71162B348C9900135C37 /* ReviewView.swift in Sources */,
 				A1F39F122B8B61A100EDAD05 /* RestaurantDetailView.swift in Sources */,
@@ -458,7 +448,6 @@
 				A1F744142B5D1F6500BC936F /* localDelicaciesData.swift in Sources */,
 				A132F5392B4FD55F00FD254B /* localfoodPlaces.swift in Sources */,
 				3FBB01D22B3DC68C00B18F04 /* AddRestaurant.swift in Sources */,
-				3F6D71122B3484EC00135C37 /* ItineraryView2.swift in Sources */,
 				A1C2A9792B8B5D7800F0EED9 /* RegistrationView.swift in Sources */,
 				7FA2A8632B4E5C0C00C450A6 /* RestaurantRecommendation.swift in Sources */,
 				3F97E4052B4C7CC0004A8BA9 /* EditProfile.swift in Sources */,
@@ -472,7 +461,6 @@
 				7FA2A8672B4E9D1D00C450A6 /* PlannedTrips.swift in Sources */,
 				3F05301C2B32CCC900396656 /* ReviewSubView.swift in Sources */,
 				A1C2A97C2B8B5D8800F0EED9 /* InputView.swift in Sources */,
-				3F16424B2B4A97B4000BB5B3 /* signup_page.swift in Sources */,
 				3FD4A99A2B30B5B900380DEC /* FirstScreen.swift in Sources */,
 				A12D0BBD2B8B5EA2007C0CCF /* User.swift in Sources */,
 				A1F39F1A2B8B621A00EDAD05 /* viewReview.swift in Sources */,
