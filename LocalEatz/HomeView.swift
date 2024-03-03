@@ -117,7 +117,7 @@ struct HomeView: View {
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
                             
                             NavigationLink {
-                                upcomingTrips()
+                                ItineraryListView()
                             } label: {
                                 Text("View All")
                                     .foregroundColor(.orange)
@@ -285,7 +285,8 @@ struct HomeView: View {
                                 .font(.system(size: 15))
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
-                        
+                                  
+                    
                         ScrollView(.horizontal,showsIndicators: false)
                         {
                             HStack
@@ -307,8 +308,6 @@ struct HomeView: View {
                                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                                             .padding(.bottom,-3)
                                             .padding(.leading,5)
-                                        
-                                        
                                     }
                                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                                     .background(Color.white)
@@ -317,9 +316,10 @@ struct HomeView: View {
                                 }
                             
                             }
-                        }.padding(.bottom,20).padding(.horizontal,20)
+                        }
+                        .padding(.bottom,20).padding(.horizontal,20)
+                        
                     }
-                    
                 }
             }
                 .frame(maxWidth: .infinity,maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)

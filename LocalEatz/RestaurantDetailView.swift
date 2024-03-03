@@ -233,15 +233,6 @@ struct RestaurantDetailView: View {
                                             .foregroundColor(.black)
                                     }
                                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
-//                                    HStack{
-//                                        Image(systemName: "star.fill")
-//                                            .symbolRenderingMode(.multicolor)
-//                                        Text("\(dish.dishRating,specifier: "%0.1f")")
-//                                            .font(.system(size: 14, weight: .thin, design: .rounded))
-//                                            .foregroundStyle(Color.black)
-//                                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
-                                    //Text("Rating: \(dish.dishRating)")
-                                    //  .font(.subheadline)
                                 }
                                 .padding(.leading,10)
                                 .padding(.bottom,10)
