@@ -1,20 +1,13 @@
-//
-//  AddReviewView.swift
-//  API_Calls
-//
-//  Created by Dewashish Dubey on 21/02/24.
-//
-
 import SwiftUI
 
 struct AddReviewView: View {
-    @EnvironmentObject var viewModel : AuthViewModel
+    @EnvironmentObject var viewModel: AuthViewModel
     @Binding var isPresented: Bool
     let restaurantID: String
     let onReviewSubmitted: () -> Void
     
     @State private var reviewText = ""
-    @State private var rating = 0.0 // Changed to Double
+    @State private var rating = 0
     
     @StateObject var viewModel1 = ViewModel()
     
@@ -26,19 +19,24 @@ struct AddReviewView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                 
-                // Display the rating with decimal value
-                Text("Rating: \(String(format: "%.1f", rating))")
-                    .padding()
-                
-                // Replaced Stepper with Slider
-                Slider(value: $rating, in: 0...5, step: 0.1) { _ in
-                    // Text("Rating: \(String(format: "%.1f", rating))") // Removed from here
+                // Custom rating view
+                HStack {
+                    ForEach(1...5, id: \.self) { index in
+                        Image(systemName: index <= rating ? "star.fill" : "star")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(index <= rating ? .yellow : .gray)
+                            .onTapGesture {
+                                // Update the rating based on tap count
+                                rating = index * (rating == index ? 0 : 1)
+                            }
+                    }
                 }
                 .padding()
                 
                 Button("Submit") {
                     // Add the review
-                    
                     addReview()
                     viewModel1.fetch()
                 }
@@ -51,7 +49,6 @@ struct AddReviewView: View {
             .navigationTitle("Add Review")
             .navigationBarItems(trailing: Button("Cancel") {
                 // Dismiss the sheet
-                
                 isPresented = false
             })
         }
@@ -67,7 +64,7 @@ struct AddReviewView: View {
         let newReview = RestaurantReview(
             userName: viewModel.currentUser?.fullname ?? "Anonymus",
             reviewDate: formattedDate(),
-            userRating: rating, // Changed to Double
+            userRating: Double(rating), // Convert rating to Double
             userReview: reviewText
         )
         
@@ -130,4 +127,3 @@ struct AddReviewView_Previews: PreviewProvider {
         AddReviewView(isPresented: .constant(true), restaurantID: "1", onReviewSubmitted: {})
     }
 }
-
