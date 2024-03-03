@@ -229,15 +229,6 @@ struct HomeView: View {
                                                                                 .foregroundColor(.black)
                                                 
                                             }
-                                           /* HStack {
-                                                
-                                                                            Image(systemName: "star.fill")
-                                                                                .foregroundColor(.orange)
-                                                                                .symbolRenderingMode(.multicolor)
-                                                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                                                                                .font(.system(size: 14, weight: .thin))
-                                                                                .foregroundColor(.black)
-                                                                        }*/
                                             HStack {
                                                 Text("\(restaurant.meal)")
                                                     .font(.system(size: 12, weight: .thin, design: .rounded))
@@ -280,11 +271,11 @@ struct HomeView: View {
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                                 .padding()
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            Text("View All")
-                                .foregroundColor(.orange)
-                                .font(.system(size: 15))
+
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
+                        
+                        
                                   
                     
                         ScrollView(.horizontal,showsIndicators: false)
