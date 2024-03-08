@@ -133,7 +133,7 @@ struct RestaurantDetailView: View {
                                         .resizable()
                                         .frame(width: 32, height: 32)
                                         .foregroundStyle(Color.black)
-                                    Text(review.userName ?? "")
+                                    Text(review.userName )
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .foregroundStyle(Color.black)
                                 }
@@ -195,7 +195,8 @@ struct RestaurantDetailView: View {
                 {
                     HStack
                     {
-                        ForEach(restaurant.mustHaves, id: \.self) { dish in
+                        ForEach(restaurant.mustHaves, id: \.self) 
+                        { dish in
                             
                             VStack(alignment: .leading) {
                                 if let imageURL = dish.mustHaveImageURL {
