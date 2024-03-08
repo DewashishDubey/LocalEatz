@@ -117,6 +117,7 @@ struct HomeView: View {
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
                             
                             NavigationLink {
+                                
                                 ItineraryListView()
                             } label: {
                                 Text("View All")

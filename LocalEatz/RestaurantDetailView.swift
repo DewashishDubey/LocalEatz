@@ -139,7 +139,7 @@ struct RestaurantDetailView: View {
                                 }
                                 
                                 HStack {
-                                    ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                                    ForEach(0..<Int(review.userRating), id: \.self) { _ in
                                         Image(systemName: "star.fill")
                                             .resizable()
                                             .foregroundColor(.orange)
@@ -147,7 +147,7 @@ struct RestaurantDetailView: View {
                                             .frame(width:15,height:15)
                                             .padding(.top,-2)
                                     }
-                                    if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                    if review.userRating - Double(Int(review.userRating)) >= 0.5 {
                                         Image(systemName: "star.leadinghalf.fill")
                                             .resizable()
                                             .foregroundColor(.orange)
@@ -155,7 +155,7 @@ struct RestaurantDetailView: View {
                                             .frame(width:15,height:15)
                                             .padding(.top,-2)
                                     }
-                                    Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                    Text("\(review.userRating, specifier: "%.1f")")
                                                                     .font(.system(size: 14, weight: .thin))
                                                                     .foregroundColor(.black)
                                     
