@@ -7,7 +7,7 @@ struct AddReviewView: View {
     let onReviewSubmitted: () -> Void
     
     @State private var reviewText = ""
-    @State private var rating = 0
+    @State private var rating = 0.0 // Rating as a decimal
     
     @StateObject var viewModel1 = ViewModel()
     
@@ -22,14 +22,14 @@ struct AddReviewView: View {
                 // Custom rating view
                 HStack {
                     ForEach(1...5, id: \.self) { index in
-                        Image(systemName: index <= rating ? "star.fill" : "star")
+                        Image(systemName: getStarImageName(forIndex: index))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30)
-                            .foregroundColor(index <= rating ? .yellow : .gray)
+                            .foregroundColor(getStarColor(forIndex: index))
                             .onTapGesture {
                                 // Update the rating based on tap count
-                                rating = index * (rating == index ? 0 : 1)
+                                updateRating(forIndex: index)
                             }
                     }
                 }
@@ -54,7 +54,41 @@ struct AddReviewView: View {
         }
     }
     
-    func addReview() {
+    // Function to get star image name based on rating
+    private func getStarImageName(forIndex index: Int) -> String {
+        let filledCount = Int(rating)
+        if index <= filledCount {
+            return "star.fill"
+        } else if index - filledCount == 1 && rating.truncatingRemainder(dividingBy: 1) > 0 {
+            return "star.leadinghalf.fill"
+        } else {
+            return "star"
+        }
+    }
+    
+    // Function to get star color based on rating
+    private func getStarColor(forIndex index: Int) -> Color {
+        if index <= Int(rating) {
+            return .orange
+        } else {
+            return .gray
+        }
+    }
+    
+    // Function to update rating when a star is tapped
+    private func updateRating(forIndex index: Int) {
+        let fullStar = Double(index)
+        if index <= Int(rating) {
+            // If the star is already filled, tapping it again sets it to half
+            rating = fullStar - 0.5
+        } else {
+            // If the star is not filled, tapping it sets it to full
+            rating = fullStar
+        }
+    }
+    
+    // Function to add review
+    private func addReview() {
         guard !reviewText.isEmpty else {
             // Show an alert or some indication that the review text cannot be empty
             return
@@ -62,9 +96,9 @@ struct AddReviewView: View {
         
         // Create a new review object
         let newReview = RestaurantReview(
-            userName: viewModel.currentUser?.fullname ?? "Anonymus",
+            userName: viewModel.currentUser?.fullname ?? "Anonymous",
             reviewDate: formattedDate(),
-            userRating: Double(rating), // Convert rating to Double
+            userRating: rating, // Use the rating directly
             userReview: reviewText
         )
         
@@ -115,7 +149,8 @@ struct AddReviewView: View {
         }.resume()
     }
     
-    func formattedDate() -> String {
+    // Function to format the date
+    private func formattedDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yy"
         return dateFormatter.string(from: Date())

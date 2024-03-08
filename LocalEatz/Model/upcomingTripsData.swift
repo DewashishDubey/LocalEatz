@@ -17,6 +17,6 @@ struct upcomingTripsData: Identifiable
 }
 
 var upcomingTripsCard : [upcomingTripsData] = [
-    upcomingTripsData(placeName: "Chennai", placeDate: "3 MARCH - 5 MARCH", knowMore: "Know more", placeImage: "mumbai"),
-    upcomingTripsData(placeName: "Pondicherry", placeDate: "4 MARCH - 8 MARCH", knowMore: "Know more", placeImage: "mumbai")
+    upcomingTripsData(placeName: "Pondicherry", placeDate: "4 MARCH - 8 MARCH", knowMore: "Know more", placeImage: "mumbai"),
+    upcomingTripsData(placeName: "Chennai", placeDate: "3 MARCH - 5 MARCH", knowMore: "Know more", placeImage: "mumbai")
 ]
