@@ -86,7 +86,7 @@ struct HomeView: View {
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                             
-                            Link("Know more 🔗", destination: URL(string: "https://en.wikipedia.org/wiki/Chennai")!)
+                            Link("Know more", destination: URL(string: "https://en.wikipedia.org/wiki/Chennai")!)
                                 .font(.system(size:15, weight: .semibold, design: .rounded))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
@@ -128,7 +128,7 @@ struct HomeView: View {
                             /*Text("View All")
                                 .foregroundColor(.orange)
                                 .font(.system(size: 15))*/
-                        }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                        }.frame(maxWidth: .infinity,alignment: .leading)
                             .padding([.horizontal],15)
                             .padding(.bottom,-10)
                         
@@ -184,7 +184,8 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        ScrollView(.horizontal, showsIndicators: false) 
+                        {
                             HStack(spacing: 20) { // Adjust the spacing between items as needed
                                 ForEach(viewModel.restaurants) { restaurant in
                                     HStack {
@@ -277,9 +278,67 @@ struct HomeView: View {
                         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                             .padding([.horizontal],15)
                         
-                        
+                        ScrollView(.horizontal, showsIndicators: false)
+                        {
+                            HStack(spacing: 20) { // Adjust the spacing between items as needed
+                                ForEach(viewModel.restaurants) { restaurant in
+                                    ForEach(restaurant.mustHaves, id: \.self)
+                                    { dish in
+                                        
+                                        VStack(alignment: .leading) {
+                                            if let imageURL = dish.mustHaveImageURL {
+                                                AsyncImage(url: imageURL)
+                                                    .frame(width: 200, height: 100,alignment: .center)
+                                                    .padding(.bottom, 8)
+                                            }
+                                            VStack{
+                                                Text(dish.dishName)
+                                                    .font(.system(size: 18, weight: .medium))
+                                                    .foregroundColor(.black)
+                                                    .padding(.leading, 3)
+                                                    .padding(.bottom, 3)
+                                                    .frame(maxWidth:.infinity,alignment:.leading)
+                                                
+                                                
+                                                HStack {
+                                                    ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
+                                                        Image(systemName: "star.fill")
+                                                            .resizable()
+                                                            .foregroundColor(.orange)
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .frame(width:15,height:15)
+                                                            .padding(.top,-2)
+                                                    }
+                                                    if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
+                                                        Image(systemName: "star.leadinghalf.fill")
+                                                            .resizable()
+                                                            .foregroundColor(.orange)
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .frame(width:15,height:15)
+                                                            .padding(.top,-2)
+                                                    }
+                                                    Text("\(dish.dishRating, specifier: "%.1f")")
+                                                        .font(.system(size: 14, weight: .thin))
+                                                        .foregroundColor(.black)
+                                                }
+                                                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
+                                            }
+                                            .padding(.leading,10)
+                                            .padding(.bottom,10)
+                                        }
+                                        .frame(maxWidth: 200,maxHeight : 200)
+                                        .background(Color.white)
+                                        .cornerRadius(10)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                        .onAppear {
+                            viewModel.fetch()
+                        }
                                   
-                    
+                    /*
                         ScrollView(.horizontal,showsIndicators: false)
                         {
                             HStack
@@ -310,7 +369,7 @@ struct HomeView: View {
                             
                             }
                         }
-                        .padding(.bottom,20).padding(.horizontal,20)
+                        .padding(.bottom,20).padding(.horizontal,20)*/
                         
                     }
                 }
