@@ -40,10 +40,13 @@ struct AddReviewView: View {
                     addReview()
                     viewModel1.fetch()
                 }
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+                .font(.system(size: 24, weight: .regular, design: .rounded))
+                    .padding(15)
+                    .padding(.horizontal,90)
+                    .foregroundColor(.white)
+                    .background(Color("coreOrange")
+                        .cornerRadius(25))
+                    .padding(7)
             }
             .padding()
             .navigationTitle("Add Review")
