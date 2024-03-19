@@ -56,6 +56,7 @@
 		A12D0BF62B8B5F63007C0CCF /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = A12D0BF52B8B5F63007C0CCF /* FirebaseStorageCombine-Community */; };
 		A132F5372B4FD09800FD254B /* upcomingTrips.swift in Sources */ = {isa = PBXBuildFile; fileRef = A132F5362B4FD09800FD254B /* upcomingTrips.swift */; };
 		A132F5392B4FD55F00FD254B /* localfoodPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = A132F5382B4FD55F00FD254B /* localfoodPlaces.swift */; };
+		A1399FBA2BA9ACF7008AA984 /* DishDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1399FB92BA9ACF7008AA984 /* DishDetailView.swift */; };
 		A14227B92B4E723F0000EE4F /* IntroductionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14227B82B4E723F0000EE4F /* IntroductionData.swift */; };
 		A1AFB68D2B8B651F00181FD4 /* ItineraryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFB68C2B8B651F00181FD4 /* ItineraryListView.swift */; };
 		A1C2A9772B8B5D6900F0EED9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C2A9762B8B5D6900F0EED9 /* LoginView.swift */; };
@@ -98,6 +99,7 @@
 		A12D0BBE2B8B5F2F007C0CCF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A132F5362B4FD09800FD254B /* upcomingTrips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcomingTrips.swift; sourceTree = "<group>"; };
 		A132F5382B4FD55F00FD254B /* localfoodPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = localfoodPlaces.swift; sourceTree = "<group>"; };
+		A1399FB92BA9ACF7008AA984 /* DishDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailView.swift; sourceTree = "<group>"; };
 		A14227B82B4E723F0000EE4F /* IntroductionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionData.swift; sourceTree = "<group>"; };
 		A1AFB68C2B8B651F00181FD4 /* ItineraryListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItineraryListView.swift; sourceTree = "<group>"; };
 		A1C2A9762B8B5D6900F0EED9 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				3F0E15832B2DFD43001A3BBB /* Assets.xcassets */,
 				A12D0BBE2B8B5F2F007C0CCF /* GoogleService-Info.plist */,
 				3F0E15852B2DFD43001A3BBB /* Preview Content */,
+				A1399FB92BA9ACF7008AA984 /* DishDetailView.swift */,
 			);
 			path = LocalEatz;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				A1C2A9792B8B5D7800F0EED9 /* RegistrationView.swift in Sources */,
 				7FA2A8632B4E5C0C00C450A6 /* RestaurantRecommendation.swift in Sources */,
 				3F97E4052B4C7CC0004A8BA9 /* EditProfile.swift in Sources */,
+				A1399FBA2BA9ACF7008AA984 /* DishDetailView.swift in Sources */,
 				A1F744122B5D14F500BC936F /* RestaurantData.swift in Sources */,
 				3F3B1E242B3C7ED100FE49E7 /* HomeView.swift in Sources */,
 				A1C2A97D2B8B5D8800F0EED9 /* SettingsRowView.swift in Sources */,
