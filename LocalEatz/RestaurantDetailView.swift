@@ -278,13 +278,6 @@ struct RestaurantDetailView: View {
         .background(Color("backgroundColor"))
         .sheet(isPresented: $isAddingReview) {
             AddReviewView(isPresented: $isAddingReview, restaurantID: restaurant.id) {
-                // This closure is called when a review is submitted
-                // You can perform any actions you want here, like updating the data model or sending the review to a server
-                print("Review submitted:")
-                print("Text: \(reviewText)")
-                print("Rating: \(rating)")
-                
-                // Reset review input fields
                 reviewText = ""
                 rating = 0
             }

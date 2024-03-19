@@ -14,6 +14,12 @@ struct AddReviewView: View {
     var body: some View {
         NavigationView {
             VStack {
+                ForEach(viewModel1.restaurants) { restaurant in
+                    if(restaurant.id == restaurantID)
+                    {
+                        Text(restaurantID)
+                    }
+                }
                 TextField("Enter your review", text: $reviewText)
                     .padding()
                     .background(Color.gray.opacity(0.2))

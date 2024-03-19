@@ -21,7 +21,7 @@ struct viewReview: View {
                                 .resizable()
                                 .frame(width: 32, height: 32)
                             VStack{
-                                Text(review.userName ?? "")
+                                Text(review.userName )
                                     .frame(maxWidth: .infinity,alignment: .leading)
                                 Text(review.reviewDate)
                                     .font(.system(size: 12, weight: .thin, design: .rounded))
