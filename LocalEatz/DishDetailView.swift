@@ -17,8 +17,10 @@ struct DishDetailView: View {
                 .font(.title)
                 .padding()
             
-            Text("Name: \(dishName)")
-                .padding()
+            Text("\(dishName)")
+                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                .padding(.top,15)
             
             Text("Restaurants offering this dish:")
                 .font(.headline)
@@ -93,6 +95,7 @@ struct DishDetailView: View {
                 viewModel.fetch()
             }
         }
+        .background(Color("backgroundColor"))
     }
 }
 

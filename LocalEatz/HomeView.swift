@@ -1059,8 +1059,8 @@ struct HomeView: View {
                 ScrollView {
                     IntroductionView()
                     UpcomingTripsView()
-                    PopularFoodPlacesView(viewModel: viewModel)
                     LocalDelicaciesView(viewModel: viewModel)
+                    PopularFoodPlacesView(viewModel: viewModel)
                 }
             }
             .background(Color("backgroundColor"))
