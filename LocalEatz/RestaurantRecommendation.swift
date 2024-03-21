@@ -98,6 +98,152 @@ class ViewModel: ObservableObject {
     }
 }
 
+struct RestroDishSegment: View {
+    enum Segment {
+        case restaurants
+        case dishes
+    }
+    
+    @StateObject var viewModel: ViewModel
+    @State private var selectedSegment: Segment = .restaurants
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Picker("Segment", selection: $selectedSegment) {
+                Text("Restaurants").tag(Segment.restaurants)
+                Text("Dishes").tag(Segment.dishes)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            
+            if selectedSegment == .restaurants {
+                displayRestaurants()
+            } else {
+                displayDishes()
+            }
+        }
+        .background(Color("backgroundColor"))
+    }
+    
+    private func displayRestaurants() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(viewModel.restaurants) { restaurant in
+                    VStack(alignment: .leading) {
+                        if let imageURL = restaurant.cardImageURL {
+                            AsyncImage(url: imageURL)
+                                .frame(width: 200, height: 100, alignment: .center)
+                                .padding(.bottom, 8)
+                        }
+                        
+                        NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                            Text(restaurant.restaurantName)
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.black)
+                                .padding(.leading, 3)
+                                .padding(.bottom, 3)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        
+                        HStack {
+                            ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .foregroundColor(.orange)
+                                    .symbolRenderingMode(.multicolor)
+                                    .frame(width: 15, height: 15)
+                                    .padding(.top, -2)
+                            }
+                            if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                Image(systemName: "star.leadinghalf.fill")
+                                    .resizable()
+                                    .foregroundColor(.orange)
+                                    .symbolRenderingMode(.multicolor)
+                                    .frame(width: 15, height: 15)
+                                    .padding(.top, -2)
+                            }
+                            Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                                .font(.system(size: 14, weight: .thin))
+                                .foregroundColor(.black)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 5)
+                    }
+                    .frame(maxWidth: 200, maxHeight: 200)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.bottom, 10)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .onAppear {
+            viewModel.fetch()
+        }
+    }
+    
+    private func displayDishes() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(viewModel.restaurants) { restaurant in
+                    ForEach(restaurant.mustHaves, id: \.self) { dish in
+                        VStack(alignment: .leading) {
+                            if let imageURL = dish.mustHaveImageURL {
+                                AsyncImage(url: imageURL)
+                                    .frame(width: 200, height: 100, alignment: .center)
+                                    .padding(.bottom, 8)
+                            }
+                            
+                            NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
+                                Text(dish.dishName)
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(.black)
+                                    .padding(.leading, 3)
+                                    .padding(.bottom, 3)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            
+                            HStack {
+                                ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .foregroundColor(.orange)
+                                        .symbolRenderingMode(.multicolor)
+                                        .frame(width: 15, height: 15)
+                                        .padding(.top, -2)
+                                }
+                                if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
+                                    Image(systemName: "star.leadinghalf.fill")
+                                        .resizable()
+                                        .foregroundColor(.orange)
+                                        .symbolRenderingMode(.multicolor)
+                                        .frame(width: 15, height: 15)
+                                        .padding(.top, -2)
+                                }
+                                Text("\(dish.dishRating, specifier: "%.1f")")
+                                    .font(.system(size: 14, weight: .thin))
+                                    .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 5)
+                        }
+                        .frame(maxWidth: 200, maxHeight: 200)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(.bottom, 10)
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+        .onAppear {
+            viewModel.fetch()
+        }
+    }
+}
+
+
+
 // Works with marker
 struct RestaurantRecommendation: View {
     @StateObject var viewModel = ViewModel()
@@ -110,6 +256,8 @@ struct RestaurantRecommendation: View {
     var body: some View {
         NavigationView {
             VStack {
+                RestroDishSegment(viewModel: viewModel)
+                
                 // Search Bar
                 SearchBar(text: $searchText)
                     .padding(.bottom, 5)
