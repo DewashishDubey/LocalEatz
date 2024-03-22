@@ -131,11 +131,13 @@ struct RestroDishSegment: View {
     }
     
     private func displayRestaurants() -> some View {
-        NavigationView {
-            VStack {
+        NavigationView 
+        {
+            VStack
+            {
                 // Search Bar
-                SearchBar(text: $searchText)
-                    .padding(.bottom, 5)
+                SearchBar(text: $searchText, placeholder: "Search Restaurants")
+                                    .padding(.bottom, 10)
                 
                 HStack(spacing: 10) {
                     TagButton(title: "Veg", isSelected: $showVegOnly, color: .green) {
@@ -228,63 +230,82 @@ struct RestroDishSegment: View {
     }
     
     private func displayDishes() -> some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
-                ForEach(viewModel.restaurants) { restaurant in
-                    ForEach(restaurant.mustHaves, id: \.self) { dish in
-                        VStack(alignment: .leading) {
-                            if let imageURL = dish.mustHaveImageURL {
-                                AsyncImage(url: imageURL)
-                                    .frame(width: 360, height: 200)
-                            }
-                            
-                            NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
-                                Text(dish.dishName)
-                                    .font(.system(size: 24, weight: .medium, design: .rounded))
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.bottom, 3)
-                                    .padding(.leading, 5)
-                            }
-                            
-                            HStack {
-                                ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
-                                    Image(systemName: "star.fill")
-                                        .resizable()
-                                        .foregroundColor(.orange)
-                                        .symbolRenderingMode(.multicolor)
-                                        .frame(width: 15, height: 15)
-                                        .padding(.top, -2)
+        
+        NavigationView
+        {
+            VStack 
+            {
+                // Search Bar for dishes
+                SearchBar(text: $searchText, placeholder: "Search Dishes")
+                                    .padding(.bottom, 10)
+                
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 20)
+                .padding(.bottom, 5)
+                
+                ScrollView
+                {
+                ForEach(viewModel.restaurants)
+                    { restaurant in
+                        ForEach(restaurant.mustHaves.filter {
+                            searchText.isEmpty || $0.dishName.localizedCaseInsensitiveContains(searchText)
+                        }, id: \.self) { dish in
+                            VStack(alignment: .leading) {
+                                if let imageURL = dish.mustHaveImageURL {
+                                    AsyncImage(url: imageURL)
+                                        .frame(width: 360, height: 200)
                                 }
-                                if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
-                                    Image(systemName: "star.leadinghalf.fill")
-                                        .resizable()
-                                        .foregroundColor(.orange)
-                                        .symbolRenderingMode(.multicolor)
-                                        .frame(width: 15, height: 15)
-                                        .padding(.top, -2)
+                                
+                                NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
+                                    Text(dish.dishName)
+                                        .font(.system(size: 24, weight: .medium, design: .rounded))
+                                        .foregroundColor(.black)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.bottom, 3)
+                                        .padding(.leading, 5)
                                 }
-                                Text("\(dish.dishRating, specifier: "%.1f")")
-                                    .font(.system(size: 14, weight: .thin))
-                                    .foregroundColor(.black)
+                                
+                                HStack {
+                                    ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
+                                        Image(systemName: "star.fill")
+                                            .resizable()
+                                            .foregroundColor(.orange)
+                                            .symbolRenderingMode(.multicolor)
+                                            .frame(width: 15, height: 15)
+                                            .padding(.top, -2)
+                                    }
+                                    if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
+                                        Image(systemName: "star.leadinghalf.fill")
+                                            .resizable()
+                                            .foregroundColor(.orange)
+                                            .symbolRenderingMode(.multicolor)
+                                            .frame(width: 15, height: 15)
+                                            .padding(.top, -2)
+                                    }
+                                    Text("\(dish.dishRating, specifier: "%.1f")")
+                                        .font(.system(size: 14, weight: .thin))
+                                        .foregroundColor(.black)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 3)
+                                .padding(.leading, 5)
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 3)
-                            .padding(.leading, 5)
+                            .padding(.leading, 15)
+                            .background(Color.white)
+                            .cornerRadius(15)
                         }
-                        .padding(.leading, 15)
-                        .background(Color.white)
-                        .cornerRadius(15)
                     }
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
+            .background(Color("backgroundColor"))
         }
+
         .onAppear {
             viewModel.fetch()
         }
     }
+
+
 
     
     private var filteredRestaurants: [Restaurant] {
@@ -390,15 +411,17 @@ struct TagButton: View {
 
 struct SearchBar: View {
     @Binding var text: String
+    var placeholder: String
 
     var body: some View {
         HStack {
-            TextField("Search Restaurants", text: $text)
+            TextField(placeholder, text: $text)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 20)
                 .background(Color.white)
                 .cornerRadius(15)
-                .padding(.horizontal)
+                .frame(minWidth: 0, maxWidth: .infinity) // Fixed width
+                .padding(.leading) // Add leading padding to center the TextField
             Image(systemName: "magnifyingglass")
                 .padding(.trailing, 20)
                 .foregroundColor(.gray)
@@ -406,6 +429,7 @@ struct SearchBar: View {
         .padding(.top, 10)
     }
 }
+
 
 struct AsyncImage: View {
     @StateObject private var imageLoader: ImageLoader

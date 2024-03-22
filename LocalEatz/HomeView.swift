@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 //
 //  ContentView.swift
 //  HomePage
@@ -8,7 +7,7 @@
 //
 
 
->>>>>>> Stashed changes
+
 import SwiftUI
 import MapKit
 
@@ -62,7 +61,7 @@ struct IntroductionView: View {
                 Text("to")
                     .font(.system(size: 30, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white)
-                Text("Chennai")
+                Text("Potheri")
                     .font(.system(size: 35, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white)
                 
@@ -119,7 +118,7 @@ struct UpcomingTripsView: View {
                             
                             Image(item.placeImage)
                                 .resizable()
-                                .frame(width:160,height: 150)
+                                .frame(width:140,height: 140)
                             
                         }
                         .background(Color.white)
