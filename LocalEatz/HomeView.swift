@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 //
 //  ContentView.swift
 //  HomePage
@@ -8,7 +7,7 @@
 //
 
 
->>>>>>> Stashed changes
+
 import SwiftUI
 import MapKit
 
