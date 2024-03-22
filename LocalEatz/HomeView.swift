@@ -1,3 +1,14 @@
+<<<<<<< Updated upstream
+=======
+//
+//  ContentView.swift
+//  HomePage
+//
+//  Created by user1 on 19/12/23.
+//
+
+
+>>>>>>> Stashed changes
 import SwiftUI
 import MapKit
 
