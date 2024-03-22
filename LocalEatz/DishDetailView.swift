@@ -1,105 +1,96 @@
-//
-//  DishDetailView.swift
-//  LocalEatz
-//
-//  Created by Dewashish Dubey on 19/03/24.
-//
-
 import SwiftUI
 
 struct DishDetailView: View {
     let dishName: String
-    @StateObject var viewModel = ViewModel() // Assuming ViewModel is the view model containing the list of restaurants
+    @StateObject var viewModel = ViewModel()
     
     var body: some View {
-        VStack {
-            Text("\(dishName)")
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+        VStack(alignment: .leading, spacing: 20) {
+            Text(dishName)
+                .font(.title)
+                .fontWeight(.semibold)
+                .padding(.horizontal)
             
             Text("Restaurants offering this dish:")
                 .font(.headline)
-                .padding()
+                .padding(.horizontal)
             
-            // Filter restaurants that offer the selected dish
             ScrollView {
-                ForEach(viewModel.restaurants.filter { $0.mustHaves.contains { $0.dishName == dishName } }) { restaurant in
-                    VStack(alignment: .leading) {
-                        if let imageURL = restaurant.cardImageURL {
-                            AsyncImage(url: imageURL)
-                                .frame(width: 360, height: 200)
-                        }
-                        
-                        NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                            Text(restaurant.restaurantName)
-                                .font(.system(size: 24, weight: .medium, design: .rounded))
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, -3)
-                                .padding(.leading, 5)
-                        }
-                        
-                        HStack {
-                            ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
-                                Image(systemName: "star.fill")
-                                    .resizable()
-                                    .foregroundColor(.orange)
-                                    .symbolRenderingMode(.multicolor)
-                                    .frame(width: 15, height: 15)
-                                    .padding(.top, -2)
+                LazyVStack(spacing: 20) {
+                    ForEach(viewModel.restaurants.filter { $0.mustHaves.contains { $0.dishName == dishName } }) { restaurant in
+                        VStack(alignment: .leading, spacing: 10) {
+                            if let imageURL = restaurant.cardImageURL {
+                                AsyncImage(url: imageURL)
+                                    .frame(height: 200)
+                                    .cornerRadius(10)
+                                    .padding(.horizontal)
                             }
-                            if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
-                                Image(systemName: "star.leadinghalf.fill")
-                                    .resizable()
-                                    .foregroundColor(.orange)
-                                    .symbolRenderingMode(.multicolor)
-                                    .frame(width: 15, height: 15)
-                                    .padding(.top, -2)
-                            }
-                            Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                                .font(.system(size: 14, weight: .thin))
-                                .foregroundColor(.black)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 3)
-                        .padding(.leading, 5)
-                        
-                        HStack {
-                            Text("\(restaurant.meal)")
-                                .font(.system(size: 12, weight: .thin, design: .rounded))
-                                .padding(6)
-                                .background(Color("softBackground"))
-                                .cornerRadius(5)
                             
-                            Text("\(restaurant.preference)")
-                                .font(.system(size: 12, weight: .thin, design: .rounded))
-                                .padding(6)
-                                .background(Color("softBackground"))
-                                .cornerRadius(5)
+                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                                Text(restaurant.restaurantName)
+                                    .font(.title2)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.black)
+                                    .padding(.horizontal)
+                            }
+                            
+                            HStack(spacing: 5) {
+                                ForEach(0..<Int(restaurant.restaurantRating)) { _ in
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 15, height: 15)
+                                        .foregroundColor(.orange)
+                                }
+                                if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                                    Image(systemName: "star.leadinghalf.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 15, height: 15)
+                                        .foregroundColor(.orange)
+                                }
+                                Text(String(format: "%.1f", restaurant.restaurantRating))
+                                    .font(.footnote)
+                                    .foregroundColor(.black)
+                            }
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                Text(restaurant.meal)
+                                    .font(.caption)
+                                    .fontWeight(.thin)
+                                    .padding(6)
+                                    .background(Color("softBackground"))
+                                    .cornerRadius(5)
+                                
+                                Text(restaurant.preference)
+                                    .font(.caption)
+                                    .fontWeight(.thin)
+                                    .padding(6)
+                                    .background(Color("softBackground"))
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 20)
-                        .padding(.leading, 5)
+                        .padding(.vertical)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
                     }
-                    .padding(.horizontal, 20)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.bottom, 20)
                 }
+                .padding(.horizontal)
+                .padding(.bottom, 20)
             }
-            .background(Color("backgroundColor"))
-            .onAppear {
-                viewModel.fetch()
-            }
+        }
+        .background(Color("backgroundColor").ignoresSafeArea())
+        .onAppear {
+            viewModel.fetch()
         }
     }
 }
 
-#if DEBUG
 struct DishDetailView_Previews: PreviewProvider {
     static var previews: some View {
         DishDetailView(dishName: "Your Dish Name")
     }
 }
-#endif
