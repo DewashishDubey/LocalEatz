@@ -115,27 +115,27 @@ struct RestaurantDetailView: View {
                 
                 //show reviews of the restaurant
                 
-                HStack
-                {
-                    NavigationLink("Reviews", destination: viewReview(restaurant: restaurant) /*ReviewView()*/)
-                        .foregroundColor(.black)
-                        .font(.system(size: 20, weight: .regular, design: .rounded))
+                HStack {
+                    NavigationLink(destination: viewReview(restaurant: restaurant)) {
+                        Text("Reviews")
+                            .foregroundColor(.black)
+                            .font(.system(size: 20, weight: .regular, design: .rounded))
+                    }
                     Image(systemName: "chevron.forward")
                 }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
-                
+
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
+                    HStack(spacing: 10) {
                         ForEach(restaurant.restaurantReviews, id: \.self) { review in
-                            VStack{
+                            VStack(alignment: .leading, spacing: 5) {
                                 HStack {
                                     Image(systemName: "person.crop.circle.fill")
                                         .resizable()
                                         .frame(width: 32, height: 32)
-                                        .foregroundStyle(Color.black)
-                                    Text(review.userName )
+                                        .foregroundColor(.black)
+                                    Text(review.userName)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .foregroundStyle(Color.black)
+                                        .foregroundColor(.black)
                                 }
                                 
                                 HStack {
@@ -144,40 +144,36 @@ struct RestaurantDetailView: View {
                                             .resizable()
                                             .foregroundColor(.orange)
                                             .symbolRenderingMode(.multicolor)
-                                            .frame(width:15,height:15)
-                                            .padding(.top,-2)
+                                            .frame(width: 15, height: 15)
+                                            .padding(.top, -2)
                                     }
                                     if review.userRating - Double(Int(review.userRating)) >= 0.5 {
                                         Image(systemName: "star.leadinghalf.fill")
                                             .resizable()
                                             .foregroundColor(.orange)
                                             .symbolRenderingMode(.multicolor)
-                                            .frame(width:15,height:15)
-                                            .padding(.top,-2)
+                                            .frame(width: 15, height: 15)
+                                            .padding(.top, -2)
                                     }
                                     Text("\(review.userRating, specifier: "%.1f")")
-                                                                    .font(.system(size: 14, weight: .thin))
-                                                                    .foregroundColor(.black)
-                                    
+                                        .font(.system(size: 14, weight: .thin))
+                                        .foregroundColor(.black)
                                 }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-//                                HStack {
-//                                    Image(systemName: "star.fill")
-//                                        .symbolRenderingMode(.multicolor)
-//                                    Text("\(review.userRating,specifier: "%0.1f")")
-//                                        .font(.system(size: 14, weight: .thin, design: .rounded))
-//                                        .foregroundStyle(Color.black)
-//                                }
-//                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
                                 Text(review.userReview)
-                                    .multilineTextAlignment(.leading)
-                                    .frame(width: 355, height: 80, alignment: .leading)
-                                    .minimumScaleFactor(0.5)
-                                    .foregroundStyle(Color.black)
+                                    .frame(maxWidth: 355, alignment: .leading)
+                                    .lineLimit(3)
+                                    .foregroundColor(.black)
                             }
+                            .frame(width: 355)
+                            .padding(10)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
                         }
                     }
                 }
+
                 //show reviews of the restaurant ends
                 
                 //must haves part starts
