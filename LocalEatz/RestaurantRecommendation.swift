@@ -5,7 +5,6 @@
 //  Created by user1 on 10/01/24.
 //
 
-
 import SwiftUI
 import MapKit
 import Foundation
@@ -15,7 +14,6 @@ extension Array where Element == Double {
         return NSArray(array: self)
     }
 }
-
 
 struct Restaurant: Hashable, Codable, Identifiable {
     var id: String
@@ -43,7 +41,7 @@ struct Restaurant: Hashable, Codable, Identifiable {
         case preference
         case coordinates
     }
-    
+
     func formatCoordinates() -> String {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 6
@@ -51,7 +49,7 @@ struct Restaurant: Hashable, Codable, Identifiable {
         let formattedLong = formatter.string(from: NSNumber(value: coordinates[1])) ?? ""
         return "\(formattedLat), \(formattedLong)"
     }
-    
+
     func coordinate2D() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: coordinates[0], longitude: coordinates[1])
     }
@@ -98,260 +96,68 @@ class ViewModel: ObservableObject {
     }
 }
 
-struct RestroDishSegment: View {
+struct RestaurantRecommendation: View {
     enum Segment {
         case restaurants
         case dishes
     }
-    
-    @StateObject var viewModel: ViewModel
-    @State private var selectedSegment: Segment = .restaurants
-    @State private var isAddingItinerary = false
-    @State private var searchText = ""
-    @State private var showVegOnly = false
-    @State private var showNonVegOnly = false
-    @State private var sortByRating = false
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Picker("Segment", selection: $selectedSegment) {
-                Text("Restaurants").tag(Segment.restaurants)
-                Text("Dishes").tag(Segment.dishes)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            
-            if selectedSegment == .restaurants {
-                displayRestaurants()
-            } else {
-                displayDishes()
-            }
-        }
-        .background(Color("backgroundColor"))
-    }
-    
-    private func displayRestaurants() -> some View {
-        NavigationView 
-        {
-            VStack
-            {
-                // Search Bar
-                SearchBar(text: $searchText, placeholder: "Search Restaurants")
-                                    .padding(.bottom, 10)
-                
-                HStack(spacing: 10) {
-                    TagButton(title: "Veg", isSelected: $showVegOnly, color: .green) {
-                        showVegOnly.toggle()
-                        showNonVegOnly = false // Deselect Non-Veg tag
-                    }
-                    TagButton(title: "Non-Veg", isSelected: $showNonVegOnly, color: .red) {
-                        showNonVegOnly.toggle()
-                        showVegOnly = false // Deselect Veg tag
-                    }
-                    TagButton(title: "Rating", isSelected: $sortByRating, color: .blue) {
-                        sortByRating.toggle()
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-                .padding(.bottom, 5)
-                
-                // List of Restaurants
-                ScrollView {
-                    ForEach(filteredRestaurants) { restaurant in
-                        // Restaurant Card View
-                        VStack(alignment: .leading) {
-                            if let imageURL = restaurant.cardImageURL {
-                                AsyncImage(url: imageURL)
-                                    .frame(width:360,height: 200)
-                            }
-                            NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                                Text(restaurant.restaurantName)
-                                    .font(.system(size: 24, weight: .medium, design: .rounded))
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.bottom, -3)
-                                    .padding(.leading, 5)
-                            }
-                            HStack {
-                                ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
-                                    Image(systemName: "star.fill")
-                                        .resizable()
-                                        .foregroundColor(.orange)
-                                        .symbolRenderingMode(.multicolor)
-                                        .frame(width:15,height:15)
-                                        .padding(.top,-2)
-                                }
-                                if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
-                                    Image(systemName: "star.leadinghalf.fill")
-                                        .resizable()
-                                        .foregroundColor(.orange)
-                                        .symbolRenderingMode(.multicolor)
-                                        .frame(width:15,height:15)
-                                        .padding(.top,-2)
-                                }
-                                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                                    .font(.system(size: 14, weight: .thin))
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 3)
-                            .padding(.leading, 5)
-                            
-                            HStack {
-                                Text("\(restaurant.meal)")
-                                    .font(.system(size: 12, weight: .thin, design: .rounded))
-                                    .padding(6)
-                                    .background(Color("softBackground"))
-                                    .cornerRadius(5)
-                                
-                                Text("\(restaurant.preference)")
-                                    .font(.system(size: 12, weight: .thin, design: .rounded))
-                                    .padding(6)
-                                    .background(Color("softBackground"))
-                                    .cornerRadius(5)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 20)
-                        }
-                        .padding(.leading,15)
-                        .background(Color.white)
-                        .cornerRadius(15)
-                    }
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, 20)
-                }
-            }
-            .background(Color("backgroundColor"))
-            .onAppear {
-                viewModel.fetch()
-            }
-        }
-    }
-    
-    private func displayDishes() -> some View {
-        
-        NavigationView
-        {
-            VStack 
-            {
-                // Search Bar for dishes
-                SearchBar(text: $searchText, placeholder: "Search Dishes")
-                                    .padding(.bottom, 10)
-                
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-                .padding(.bottom, 5)
-                
-                ScrollView
-                {
-                ForEach(viewModel.restaurants)
-                    { restaurant in
-                        ForEach(restaurant.mustHaves.filter {
-                            searchText.isEmpty || $0.dishName.localizedCaseInsensitiveContains(searchText)
-                        }, id: \.self) { dish in
-                            VStack(alignment: .leading) {
-                                if let imageURL = dish.mustHaveImageURL {
-                                    AsyncImage(url: imageURL)
-                                        .frame(width: 360, height: 200)
-                                }
-                                
-                                NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
-                                    Text(dish.dishName)
-                                        .font(.system(size: 24, weight: .medium, design: .rounded))
-                                        .foregroundColor(.black)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.bottom, 3)
-                                        .padding(.leading, 5)
-                                }
-                                
-                                HStack {
-                                    ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
-                                        Image(systemName: "star.fill")
-                                            .resizable()
-                                            .foregroundColor(.orange)
-                                            .symbolRenderingMode(.multicolor)
-                                            .frame(width: 15, height: 15)
-                                            .padding(.top, -2)
-                                    }
-                                    if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
-                                        Image(systemName: "star.leadinghalf.fill")
-                                            .resizable()
-                                            .foregroundColor(.orange)
-                                            .symbolRenderingMode(.multicolor)
-                                            .frame(width: 15, height: 15)
-                                            .padding(.top, -2)
-                                    }
-                                    Text("\(dish.dishRating, specifier: "%.1f")")
-                                        .font(.system(size: 14, weight: .thin))
-                                        .foregroundColor(.black)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, 3)
-                                .padding(.leading, 5)
-                            }
-                            .padding(.leading, 15)
-                            .background(Color.white)
-                            .cornerRadius(15)
-                        }
-                    }
-                }
-            }
-            .background(Color("backgroundColor"))
-        }
 
-        .onAppear {
-            viewModel.fetch()
-        }
-    }
-
-
-
-    
-    private var filteredRestaurants: [Restaurant] {
-        var filteredRestaurants = viewModel.restaurants
-        
-        if !searchText.isEmpty {
-            filteredRestaurants = filteredRestaurants.filter { $0.restaurantName.localizedCaseInsensitiveContains(searchText) }
-        }
-        
-        if showVegOnly {
-            filteredRestaurants = filteredRestaurants.filter { $0.preference == "Veg" }
-        } else if showNonVegOnly {
-            filteredRestaurants = filteredRestaurants.filter { $0.preference == "NonVeg" }
-        }
-        
-        if sortByRating {
-            filteredRestaurants = filteredRestaurants.sorted(by: { $0.restaurantRating > $1.restaurantRating })
-        }
-        
-        return filteredRestaurants
-    }
-}
-
-
-
-
-// Works with marker
-struct RestaurantRecommendation: View {
-    
     @StateObject var viewModel = ViewModel()
     @State private var isAddingItinerary = false
     @State private var searchText = ""
     @State private var showVegOnly = false
     @State private var showNonVegOnly = false
     @State private var sortByRating = false
+    @State private var selectedSegment: Segment = .restaurants
 
     var body: some View {
-        NavigationView 
-        {
-            VStack {
-                RestroDishSegment(viewModel: viewModel)
+        NavigationView {
+            VStack(alignment: .leading) {
+                Picker("Segment", selection: $selectedSegment) {
+                    Text("Restaurants").tag(Segment.restaurants)
+                    Text("Dishes").tag(Segment.dishes)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+
+                if selectedSegment == .restaurants {
+                    RestaurantListView(viewModel: viewModel, searchText: $searchText, showVegOnly: $showVegOnly, showNonVegOnly: $showNonVegOnly, sortByRating: $sortByRating)
+                } else {
+                    DishListView(viewModel: viewModel, searchText: $searchText)
+                }
             }
             .background(Color("backgroundColor"))
-            .onAppear {
-                viewModel.fetch()
+        }
+    }
+}
+
+struct RestaurantListView: View {
+    @ObservedObject var viewModel: ViewModel
+    @Binding var searchText: String
+    @Binding var showVegOnly: Bool
+    @Binding var showNonVegOnly: Bool
+    @Binding var sortByRating: Bool
+
+    var body: some View {
+        VStack {
+            // Search Bar
+            SearchBar(text: $searchText, placeholder: "Search Restaurants")
+                .padding(.bottom, 10)
+
+            FilterView(showVegOnly: $showVegOnly, showNonVegOnly: $showNonVegOnly, sortByRating: $sortByRating)
+
+            // List of Restaurants
+            ScrollView {
+                ForEach(filteredRestaurants) { restaurant in
+                    RestaurantCardView(restaurant: restaurant)
+                }
+                .padding(.bottom, 20)
+                .padding(.horizontal, 20)
             }
+        }
+        .background(Color("backgroundColor"))
+        .onAppear {
+            viewModel.fetch()
         }
     }
 
@@ -376,12 +182,57 @@ struct RestaurantRecommendation: View {
     }
 }
 
-struct RestaurantRecommendation_Previews: PreviewProvider {
-    static var previews: some View {
-        RestaurantRecommendation()
+struct DishListView: View {
+    @ObservedObject var viewModel: ViewModel
+    @Binding var searchText: String
+
+    var body: some View {
+        VStack {
+            // Search Bar for dishes
+            SearchBar(text: $searchText, placeholder: "Search Dishes")
+                .padding(.bottom, 10)
+
+            ScrollView {
+                ForEach(viewModel.restaurants) { restaurant in
+                    ForEach(restaurant.mustHaves.filter {
+                        searchText.isEmpty || $0.dishName.localizedCaseInsensitiveContains(searchText)
+                    }, id: \.self) { dish in
+                        DishCardView(dish: dish)
+                    }
+                }
+            }
+        }
+        .background(Color("backgroundColor"))
+        .onAppear {
+            viewModel.fetch()
+        }
     }
 }
 
+struct FilterView: View {
+    @Binding var showVegOnly: Bool
+    @Binding var showNonVegOnly: Bool
+    @Binding var sortByRating: Bool
+
+    var body: some View {
+        HStack(spacing: 10) {
+            TagButton(title: "Veg", isSelected: $showVegOnly, color: .green) {
+                showVegOnly.toggle()
+                showNonVegOnly = false // Deselect Non-Veg tag
+            }
+            TagButton(title: "Non-Veg", isSelected: $showNonVegOnly, color: .red) {
+                showNonVegOnly.toggle()
+                showVegOnly = false // Deselect Veg tag
+            }
+            TagButton(title: "Rating", isSelected: $sortByRating, color: .blue) {
+                sortByRating.toggle()
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 20)
+        .padding(.bottom, 5)
+    }
+}
 struct TagButton: View {
     var title: String
     @Binding var isSelected: Bool
@@ -430,7 +281,6 @@ struct SearchBar: View {
     }
 }
 
-
 struct AsyncImage: View {
     @StateObject private var imageLoader: ImageLoader
     private let placeholder: Image
@@ -467,5 +317,126 @@ class ImageLoader: ObservableObject {
                 self.image = UIImage(data: data)
             }
         }.resume()
+    }
+}
+
+struct RestaurantCardView: View {
+    let restaurant: Restaurant
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            if let imageURL = restaurant.cardImageURL {
+                AsyncImage(url: imageURL)
+                    .frame(width:360,height: 200)
+            }
+            NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                Text(restaurant.restaurantName)
+                    .font(.system(size: 24, weight: .medium, design: .rounded))
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, -3)
+                    .padding(.leading, 5)
+            }
+            HStack {
+                ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .foregroundColor(.orange)
+                        .symbolRenderingMode(.multicolor)
+                        .frame(width:15,height:15)
+                        .padding(.top,-2)
+                }
+                if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                    Image(systemName: "star.leadinghalf.fill")
+                        .resizable()
+                        .foregroundColor(.orange)
+                        .symbolRenderingMode(.multicolor)
+                        .frame(width:15,height:15)
+                        .padding(.top,-2)
+                }
+                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
+                    .font(.system(size: 14, weight: .thin))
+                    .foregroundColor(.black)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 3)
+            .padding(.leading, 5)
+            
+            HStack {
+                Text("\(restaurant.meal)")
+                    .font(.system(size: 12, weight: .thin, design: .rounded))
+                    .padding(6)
+                    .background(Color("softBackground"))
+                    .cornerRadius(5)
+                
+                Text("\(restaurant.preference)")
+                    .font(.system(size: 12, weight: .thin, design: .rounded))
+                    .padding(6)
+                    .background(Color("softBackground"))
+                    .cornerRadius(5)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 20)
+        }
+        .padding(.leading,15)
+        .background(Color.white)
+        .cornerRadius(15)
+    }
+}
+
+struct DishCardView: View {
+    let dish: MustHaveDish
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            if let imageURL = dish.mustHaveImageURL {
+                AsyncImage(url: imageURL)
+                    .frame(width: 360, height: 200)
+            }
+
+            NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
+                Text(dish.dishName)
+                    .font(.system(size: 24, weight: .medium, design: .rounded))
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, 3)
+                    .padding(.leading, 5)
+            }
+
+            HStack {
+                ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .foregroundColor(.orange)
+                        .symbolRenderingMode(.multicolor)
+                        .frame(width: 15, height: 15)
+                        .padding(.top, -2)
+                }
+                if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
+                    Image(systemName: "star.leadinghalf.fill")
+                        .resizable()
+                        .foregroundColor(.orange)
+                        .symbolRenderingMode(.multicolor)
+                        .frame(width: 15, height: 15)
+                        .padding(.top, -2)
+                }
+                Text("\(dish.dishRating, specifier: "%.1f")")
+                    .font(.system(size: 14, weight: .thin))
+                    .foregroundColor(.black)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 3)
+            .padding(.leading, 5)
+        }
+        .padding(.leading, 15)
+        .background(Color.white)
+        .cornerRadius(15)
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        RestaurantRecommendation()
     }
 }
