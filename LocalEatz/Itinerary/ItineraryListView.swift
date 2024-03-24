@@ -178,7 +178,8 @@ struct ItineraryDetailView: View {
                                 restaurantViewModel.fetchRestaurants()
                             }
                             .background(Color("backgroundColor").ignoresSafeArea())
-                                    ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
+                    
+                                    /*ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
                                         if let matchingRestaurants = matchingRestaurants(forDay: dayNumber) {
                                             VStack(alignment: .leading) {
                                                 Text("Day \(dayNumber)")
@@ -197,7 +198,7 @@ struct ItineraryDetailView: View {
                                                 }
                                             }
                                         }
-                                    }
+                                    }*/
                                 } else {
                                     
                                     ProgressView()
@@ -221,16 +222,24 @@ struct ItineraryDetailView: View {
                 .foregroundColor(.red)
                 .padding()
         } else {
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 20) {
-                    ForEach(filteredRestaurants) { restaurant in
-                        RestaurantView(restaurant: restaurant)
+            ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
+                Text("Day \(dayNumber)")
+                    .font(.headline)
+                    .padding(.top)
+                    .frame(maxWidth:.infinity,alignment:.leading)
+                    .padding(.leading,20)
+                ScrollView(.vertical) {
+                    LazyVStack(spacing: 20) {
+                        ForEach(filteredRestaurants) { restaurant in
+                            RestaurantView(restaurant: restaurant)
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
         }
         
+        /*
         // Add the ForEach loop for each case
         ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
             if let matchingRestaurants = matchingRestaurants(forDay: dayNumber) {
@@ -250,7 +259,7 @@ struct ItineraryDetailView: View {
                     }
                 }
             }
-        }
+        }*/
     }
 
     
