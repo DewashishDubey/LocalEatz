@@ -128,7 +128,7 @@ struct ItineraryListView_Previews: PreviewProvider {
 struct ItineraryDetailView: View {
     var itinerary: Itinerary
     @StateObject var restaurantViewModel = RestaurantViewModel()
-    
+    @State private var selectedSegment = 0
     var body: some View {
         ScrollView
         {
@@ -148,6 +148,36 @@ struct ItineraryDetailView: View {
                                      //   .font(.title)
                                     
                                     // Run loop for the number of days
+                    
+                    ScrollView {
+                                VStack(alignment: .leading, spacing: 20) {
+                                    // SegmentedPicker for Breakfast, Lunch, Dinner
+                                    Picker(selection: $selectedSegment, label: Text("Select Meal")) {
+                                        Text("Breakfast").tag(0)
+                                        Text("Lunch").tag(1)
+                                        Text("Dinner").tag(2)
+                                    }
+                                    .pickerStyle(SegmentedPickerStyle())
+                                    .padding(.horizontal)
+
+                                    // Show restaurants based on selected meal
+                                    switch selectedSegment {
+                                    case 0: // Breakfast
+                                        showRestaurants(for: "Breakfast")
+                                    case 1: // Lunch
+                                        showRestaurants(for: "Lunch")
+                                    case 2: // Dinner
+                                        showRestaurants(for: "Dinner")
+                                    default:
+                                        Text("No restaurants found")
+                                    }
+                                }
+                                .padding()
+                            }
+                            .onAppear {
+                                restaurantViewModel.fetchRestaurants()
+                            }
+                            .background(Color("backgroundColor").ignoresSafeArea())
                                     ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
                                         if let matchingRestaurants = matchingRestaurants(forDay: dayNumber) {
                                             VStack(alignment: .leading) {
@@ -181,6 +211,48 @@ struct ItineraryDetailView: View {
         }
         .background(Color("backgroundColor").ignoresSafeArea())
     }
+    
+    // Function to display restaurants for the selected meal
+    @ViewBuilder func showRestaurants(for meal: String) -> some View {
+        let filteredRestaurants = restaurantViewModel.restaurants.filter { $0.meal.lowercased() == meal.lowercased() }
+
+        if filteredRestaurants.isEmpty {
+            Text("No restaurants found for \(meal)")
+                .foregroundColor(.red)
+                .padding()
+        } else {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 20) {
+                    ForEach(filteredRestaurants) { restaurant in
+                        RestaurantView(restaurant: restaurant)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+        
+        // Add the ForEach loop for each case
+        ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
+            if let matchingRestaurants = matchingRestaurants(forDay: dayNumber) {
+                VStack(alignment: .leading) {
+                    Text("Day \(dayNumber)")
+                        .font(.headline)
+                        .padding(.top)
+                        .frame(maxWidth:.infinity,alignment:.leading)
+                        .padding(.leading,20)
+                    ScrollView(.horizontal)
+                    {
+                        HStack{
+                            ForEach(matchingRestaurants.prefix(3), id: \.id) { restaurant in
+                                RestaurantView(restaurant: restaurant)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     
     func numberOfDaysBetweenDates() -> Int {
         let dateFormatter = DateFormatter()
