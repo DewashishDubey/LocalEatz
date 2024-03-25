@@ -319,22 +319,22 @@ struct RestaurantView: View {
     var restaurant: Restaurant
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading) {
+            // Display the image
             if let imageURL = restaurant.cardImageURL {
                 AsyncImage(url: imageURL)
-                    .frame(width: 200, height: 100)
-                    .aspectRatio(contentMode: .fill)
-                    .cornerRadius(10)
+                    .frame(width: 360)
             }
             
-            VStack(alignment: .leading, spacing: 5) {
+            // Display text content below the image
+            VStack(alignment: .leading, spacing: 8) {
                 NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
                     Text(restaurant.restaurantName)
                         .font(.headline)
                         .foregroundColor(.black)
                 }
                 
-                HStack(spacing: 5) {
+                HStack {
                     ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
                         Image(systemName: "star.fill")
                             .foregroundColor(.orange)
@@ -363,9 +363,10 @@ struct RestaurantView: View {
                 }
                 .foregroundColor(.black)
             }
-            .padding(.horizontal, 10)
+            .padding()
+            .padding(.top,-10)
         }
-        .padding(10)
+        .padding(.bottom,10)
         .background(Color.white)
         .cornerRadius(10)
         .shadow(radius: 2)

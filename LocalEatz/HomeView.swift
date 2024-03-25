@@ -153,7 +153,7 @@ struct PopularFoodPlacesView: View {
                             VStack(alignment: .leading) {
                                 if let imageURL = restaurant.cardImageURL {
                                     AsyncImage(url: imageURL)
-                                        .frame(width: 200, height: 100,alignment: .center)
+                                        .frame(width: 200)
                                         .padding(.bottom, 8)
                                 }
                                 
@@ -163,6 +163,7 @@ struct PopularFoodPlacesView: View {
                                         .foregroundColor(.black)
                                         .padding(.leading, 3)
                                         .padding(.bottom, 3)
+                                        .frame(width:200,alignment: .leading)
                                 }
                                 
                                 HStack {
@@ -205,7 +206,7 @@ struct PopularFoodPlacesView: View {
                             }
                             .padding(.leading,10)
                         }
-                        .frame(maxWidth: 200,maxHeight : 200)
+                        .frame(maxWidth: 200,maxHeight : 250)
                         .background(Color.white)
                         .cornerRadius(10)
                     }
@@ -240,13 +241,15 @@ struct LocalDelicaciesView: View {
                         ForEach(restaurant.mustHaves, id: \.self)
                         { dish in
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading) 
+                            {
                                 if let imageURL = dish.mustHaveImageURL {
                                     AsyncImage(url: imageURL)
-                                        .frame(width: 200, height: 100,alignment: .center)
+                                        .frame(width: 200)
                                         .padding(.bottom, 8)
                                 }
-                                VStack{
+                                VStack
+                                {
                                     NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
                                         Text(dish.dishName)
                                             .font(.system(size: 18, weight: .medium))
@@ -282,7 +285,7 @@ struct LocalDelicaciesView: View {
                                 .padding(.leading,10)
                                 .padding(.bottom,10)
                             }
-                            .frame(maxWidth: 200,maxHeight : 200)
+                            .frame(maxWidth: 200,maxHeight : 230)
                             .background(Color.white)
                             .cornerRadius(10)
                         }

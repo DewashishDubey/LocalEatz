@@ -294,7 +294,7 @@ struct AsyncImage: View {
         if let image = imageLoader.image {
             Image(uiImage: image)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
         } else {
             placeholder
         }
@@ -327,7 +327,7 @@ struct RestaurantCardView: View {
         VStack(alignment: .leading) {
             if let imageURL = restaurant.cardImageURL {
                 AsyncImage(url: imageURL)
-                    .frame(width:360,height: 200)
+                    .frame(width:360)
             }
             NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
                 Text(restaurant.restaurantName)
@@ -360,7 +360,6 @@ struct RestaurantCardView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 3)
-            .padding(.leading, 5)
             
             HStack {
                 Text("\(restaurant.meal)")
@@ -388,10 +387,11 @@ struct DishCardView: View {
     let dish: MustHaveDish
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading) 
+        {
             if let imageURL = dish.mustHaveImageURL {
                 AsyncImage(url: imageURL)
-                    .frame(width: 360, height: 200)
+                    .frame(width: 360)
             }
 
             NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
@@ -428,6 +428,7 @@ struct DishCardView: View {
             .padding(.bottom, 3)
             .padding(.leading, 5)
         }
+        .padding(.bottom,10)
         .padding(.leading, 15)
         .background(Color.white)
         .cornerRadius(15)
