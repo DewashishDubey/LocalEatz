@@ -132,7 +132,25 @@ struct UpcomingTripsView: View {
     }
 }
 
+private func calculateDistance(_ coordinate1: CLLocationCoordinate2D, _ coordinate2: CLLocationCoordinate2D) -> Double {
+        let earthRadius: Double = 6371 // Radius of the Earth in kilometers
+
+        let lat1 = coordinate1.latitude.degreesToRadians
+        let lon1 = coordinate1.longitude.degreesToRadians
+        let lat2 = coordinate2.latitude.degreesToRadians
+        let lon2 = coordinate2.longitude.degreesToRadians
+
+        let dlon = lon2 - lon1
+        let dlat = lat2 - lat1
+
+        let a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        return earthRadius * c
+    }
+
 struct PopularFoodPlacesView: View {
+    @ObservedObject private var locationManager = LocationManager()
     @StateObject var viewModel: ViewModel
     
     var body: some View {
@@ -156,14 +174,24 @@ struct PopularFoodPlacesView: View {
                                         .frame(width: 200)
                                         .padding(.bottom, 8)
                                 }
+                                    NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                                        Text(restaurant.restaurantName)
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.black)
+                                            .padding(.leading, 3)
+                                            .padding(.bottom, 3)
+                                            .frame(width:200,alignment: .leading)
+                                    }
                                 
-                                NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                                    Text(restaurant.restaurantName)
-                                        .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(.black)
-                                        .padding(.leading, 3)
-                                        .padding(.bottom, 3)
-                                        .frame(width:200,alignment: .leading)
+                                if let userLocation = locationManager.location {
+                                    let distance = calculateDistance(userLocation.coordinate, restaurant.coordinate2D())
+                                    HStack{
+                                        Image(systemName: "location")
+                                        Text("\(String(format: "%.1f", distance)) km")
+                                            .font(.system(size: 12, weight: .light, design: .rounded))
+                                            .foregroundColor(.black)
+                                            .padding(.trailing)
+                                    }
                                 }
                                 
                                 HStack {

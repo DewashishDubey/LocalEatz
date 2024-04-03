@@ -315,8 +315,27 @@ class RestaurantViewModel: ObservableObject {
     }
 }
 
+private func calculateDistance(_ coordinate1: CLLocationCoordinate2D, _ coordinate2: CLLocationCoordinate2D) -> Double {
+        let earthRadius: Double = 6371 // Radius of the Earth in kilometers
+
+        let lat1 = coordinate1.latitude.degreesToRadians
+        let lon1 = coordinate1.longitude.degreesToRadians
+        let lat2 = coordinate2.latitude.degreesToRadians
+        let lon2 = coordinate2.longitude.degreesToRadians
+
+        let dlon = lon2 - lon1
+        let dlat = lat2 - lat1
+
+        let a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        return earthRadius * c
+    }
+
 struct RestaurantView: View {
     var restaurant: Restaurant
+    @ObservedObject private var locationManager = LocationManager()
+
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -328,10 +347,23 @@ struct RestaurantView: View {
             
             // Display text content below the image
             VStack(alignment: .leading, spacing: 8) {
-                NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                    Text(restaurant.restaurantName)
-                        .font(.headline)
-                        .foregroundColor(.black)
+                HStack{
+                    NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                        Text(restaurant.restaurantName)
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }
+                    Spacer()
+                    if let userLocation = locationManager.location {
+                        let distance = calculateDistance(userLocation.coordinate, restaurant.coordinate2D())
+                        HStack{
+                            Image(systemName: "location")
+                            Text("\(String(format: "%.1f", distance)) km")
+                                .font(.system(size: 12, weight: .light, design: .rounded))
+                                .foregroundColor(.black)
+                        }
+                        .offset(x:35)
+                    }
                 }
                 
                 HStack {
