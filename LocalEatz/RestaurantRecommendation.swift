@@ -322,9 +322,11 @@ class ImageLoader: ObservableObject {
 
 struct RestaurantCardView: View {
     let restaurant: Restaurant
-
+    @ObservedObject private var locationManager = LocationManager()
     var body: some View {
         VStack(alignment: .leading) {
+            /*Text("Latitude: \(locationManager.location?.coordinate.latitude ?? 0), Longitude: \(locationManager.location?.coordinate.longitude ?? 0)")
+                                .padding()*/
             if let imageURL = restaurant.cardImageURL {
                 AsyncImage(url: imageURL)
                     .frame(width:360)
@@ -373,6 +375,13 @@ struct RestaurantCardView: View {
                     .padding(6)
                     .background(Color("softBackground"))
                     .cornerRadius(5)
+                
+                if let userLocation = locationManager.location {
+                    let distance = calculateDistance(userLocation.coordinate, restaurant.coordinate2D())
+                    Text("Distance: \(String(format: "%.2f", distance)) km")
+                        .font(.system(size: 12, weight: .thin, design: .rounded))
+                        .foregroundColor(.black)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 20)
@@ -381,6 +390,22 @@ struct RestaurantCardView: View {
         .background(Color.white)
         .cornerRadius(15)
     }
+    private func calculateDistance(_ coordinate1: CLLocationCoordinate2D, _ coordinate2: CLLocationCoordinate2D) -> Double {
+            let earthRadius: Double = 6371 // Radius of the Earth in kilometers
+
+            let lat1 = coordinate1.latitude.degreesToRadians
+            let lon1 = coordinate1.longitude.degreesToRadians
+            let lat2 = coordinate2.latitude.degreesToRadians
+            let lon2 = coordinate2.longitude.degreesToRadians
+
+            let dlon = lon2 - lon1
+            let dlat = lat2 - lat1
+
+            let a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2)
+            let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+            return earthRadius * c
+        }
 }
 
 struct DishCardView: View {
@@ -435,6 +460,9 @@ struct DishCardView: View {
     }
 }
 
+extension Double {
+    var degreesToRadians: Double { return self * .pi / 180 }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

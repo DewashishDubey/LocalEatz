@@ -317,6 +317,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack {
+
                 HeaderView(viewModel1: _viewModel1)
                 ScrollView {
                     IntroductionView()
