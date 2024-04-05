@@ -16,27 +16,30 @@ struct ItineraryListView: View {
     @State private var isAddingItinerary = false
 
     var body: some View {
-        
         NavigationView {
-            
             VStack {
-                Text("Itinerary")
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-               
-                
-                    NavigationLink{
-                        AddItineraryView()
-                    }label: {
-                        HStack
-                        {
-                            Image(systemName: "plus")
-                                .foregroundColor(.orange)
-                            Text("Plan a new Itienary")
-                                .foregroundColor(.orange)
-                        }
-                    }
+                            Text("Itinerary")
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                           
+                            
+                                NavigationLink{
+                                    AddItineraryView()
+                                }label: {
+                                    HStack
+                                    {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.orange)
+                                        Text("Plan a new Itienary")
+                                            .foregroundColor(.orange)
+                                    }
+                                }
+
+            .sheet(isPresented: $isAddingItinerary) {
+                AddItineraryView()
+            }
+
                 HStack{
                     Text("Upcoming Trips")
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
@@ -238,28 +241,6 @@ struct ItineraryDetailView: View {
                 }
             }
         }
-        
-        /*
-        // Add the ForEach loop for each case
-        ForEach(1...numberOfDaysBetweenDates(), id: \.self) { dayNumber in
-            if let matchingRestaurants = matchingRestaurants(forDay: dayNumber) {
-                VStack(alignment: .leading) {
-                    Text("Day \(dayNumber)")
-                        .font(.headline)
-                        .padding(.top)
-                        .frame(maxWidth:.infinity,alignment:.leading)
-                        .padding(.leading,20)
-                    ScrollView(.horizontal)
-                    {
-                        HStack{
-                            ForEach(matchingRestaurants.prefix(3), id: \.id) { restaurant in
-                                RestaurantView(restaurant: restaurant)
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     
