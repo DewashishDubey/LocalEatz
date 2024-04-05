@@ -18,21 +18,24 @@ struct ItineraryListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("Itinerary")
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
+                            Text("Itinerary")
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                           
+                            
+                                NavigationLink{
+                                    AddItineraryView()
+                                }label: {
+                                    HStack
+                                    {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.orange)
+                                        Text("Plan a new Itienary")
+                                            .foregroundColor(.orange)
+                                    }
+                                }
 
-                Button(action: {
-                    isAddingItinerary = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus")
-                            .foregroundColor(.orange)
-                        Text("Plan a new Itinerary")
-                            .foregroundColor(.orange)
-                    }
-                }
             .sheet(isPresented: $isAddingItinerary) {
                 AddItineraryView()
             }
