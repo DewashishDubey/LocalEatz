@@ -321,74 +321,75 @@ class ImageLoader: ObservableObject {
 }
 
 struct RestaurantCardView: View {
-    let restaurant: Restaurant
+    var restaurant: Restaurant
     @ObservedObject private var locationManager = LocationManager()
+
+    
     var body: some View {
         VStack(alignment: .leading) {
-            /*Text("Latitude: \(locationManager.location?.coordinate.latitude ?? 0), Longitude: \(locationManager.location?.coordinate.longitude ?? 0)")
-                                .padding()*/
+            // Display the image
             if let imageURL = restaurant.cardImageURL {
                 AsyncImage(url: imageURL)
-                    .frame(width:360)
+                    .frame(width: 360)
             }
-            NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
-                Text(restaurant.restaurantName)
-                    .font(.system(size: 24, weight: .medium, design: .rounded))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, -3)
-                    .padding(.leading, 5)
-            }
-            HStack {
-                ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .foregroundColor(.orange)
-                        .symbolRenderingMode(.multicolor)
-                        .frame(width:15,height:15)
-                        .padding(.top,-2)
-                }
-                if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
-                    Image(systemName: "star.leadinghalf.fill")
-                        .resizable()
-                        .foregroundColor(.orange)
-                        .symbolRenderingMode(.multicolor)
-                        .frame(width:15,height:15)
-                        .padding(.top,-2)
-                }
-                Text("\(restaurant.restaurantRating, specifier: "%.1f")")
-                    .font(.system(size: 14, weight: .thin))
-                    .foregroundColor(.black)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, 3)
             
-            HStack {
-                Text("\(restaurant.meal)")
-                    .font(.system(size: 12, weight: .thin, design: .rounded))
-                    .padding(6)
-                    .background(Color("softBackground"))
-                    .cornerRadius(5)
-                
-                Text("\(restaurant.preference)")
-                    .font(.system(size: 12, weight: .thin, design: .rounded))
-                    .padding(6)
-                    .background(Color("softBackground"))
-                    .cornerRadius(5)
-                
-                if let userLocation = locationManager.location {
-                    let distance = calculateDistance(userLocation.coordinate, restaurant.coordinate2D())
-                    Text("Distance: \(String(format: "%.2f", distance)) km")
-                        .font(.system(size: 12, weight: .thin, design: .rounded))
-                        .foregroundColor(.black)
+            // Display text content below the image
+            VStack(alignment: .leading, spacing: 8) {
+                HStack{
+                    NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                        Text(restaurant.restaurantName)
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }
+                    Spacer()
+                    if let userLocation = locationManager.location {
+                        let distance = calculateDistance(userLocation.coordinate, restaurant.coordinate2D())
+                        HStack{
+                            Image(systemName: "location")
+                            Text("\(String(format: "%.1f", distance)) km")
+                                .font(.system(size: 12, weight: .light, design: .rounded))
+                                .foregroundColor(.black)
+                        }
+                        
+                    }
                 }
+                
+                HStack {
+                    ForEach(0..<Int(restaurant.restaurantRating), id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.orange)
+                    }
+                    if restaurant.restaurantRating - Double(Int(restaurant.restaurantRating)) >= 0.5 {
+                        Image(systemName: "star.leadinghalf.fill")
+                            .foregroundColor(.orange)
+                    }
+                    Text(String(format: "%.1f", restaurant.restaurantRating))
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                
+                HStack(spacing: 5) {
+                    Text(restaurant.meal)
+                        .font(.caption)
+                        .padding(6)
+                        .background(Color("softBackground"))
+                        .cornerRadius(5)
+                    
+                    Text(restaurant.preference)
+                        .font(.caption)
+                        .padding(6)
+                        .background(Color("softBackground"))
+                        .cornerRadius(5)
+                }
+                .foregroundColor(.black)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, 20)
+            .padding()
+            .padding(.top,-10)
         }
-        .padding(.leading,15)
+        .padding(.bottom,10)
         .background(Color.white)
-        .cornerRadius(15)
+        .cornerRadius(10)
+        .shadow(radius: 2)
     }
     private func calculateDistance(_ coordinate1: CLLocationCoordinate2D, _ coordinate2: CLLocationCoordinate2D) -> Double {
             let earthRadius: Double = 6371 // Radius of the Earth in kilometers
@@ -412,51 +413,39 @@ struct DishCardView: View {
     let dish: MustHaveDish
 
     var body: some View {
-        VStack(alignment: .leading) 
-        {
+        VStack(alignment: .leading, spacing: 10) {
             if let imageURL = dish.mustHaveImageURL {
                 AsyncImage(url: imageURL)
-                    .frame(width: 360)
+                    .frame(width: 360, height: 200)
+                    .cornerRadius(15)
             }
 
             NavigationLink(destination: DishDetailView(dishName: dish.dishName)) {
-                Text(dish.dishName)
-                    .font(.system(size: 24, weight: .medium, design: .rounded))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 3)
-                    .padding(.leading, 5)
-            }
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(dish.dishName)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
 
-            HStack {
-                ForEach(0..<Int(dish.dishRating), id: \.self) { _ in
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .foregroundColor(.orange)
-                        .symbolRenderingMode(.multicolor)
-                        .frame(width: 15, height: 15)
-                        .padding(.top, -2)
+                    HStack(spacing: 5) {
+                        ForEach(0..<Int(dish.dishRating)) { _ in
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(.orange)
+                        }
+                        Text("\(dish.dishRating, specifier: "%.1f")")
+                            .font(.callout)
+                            .foregroundColor(.black)
+                    }
                 }
-                if dish.dishRating - Double(Int(dish.dishRating)) >= 0.5 {
-                    Image(systemName: "star.leadinghalf.fill")
-                        .resizable()
-                        .foregroundColor(.orange)
-                        .symbolRenderingMode(.multicolor)
-                        .frame(width: 15, height: 15)
-                        .padding(.top, -2)
-                }
-                Text("\(dish.dishRating, specifier: "%.1f")")
-                    .font(.system(size: 14, weight: .thin))
-                    .foregroundColor(.black)
+                .padding(.horizontal, 10)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, 3)
-            .padding(.leading, 5)
         }
-        .padding(.bottom,10)
-        .padding(.leading, 15)
+        .padding(.vertical, 10)
         .background(Color.white)
         .cornerRadius(15)
+        .shadow(radius: 3)
     }
 }
 
